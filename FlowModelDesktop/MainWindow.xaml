@@ -5,8 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="FlowModel" Height="450" Width="900">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
 
+        <!--TODO: Сделать выпадающие списки у элементов меню-->
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <MenuItem Header="Файл"></MenuItem>
+            <MenuItem Header="Справка"></MenuItem>
+            <MenuItem Header="Помощь"></MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Выбор материала:</TextBlock>
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5"></ComboBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="0.7*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Вы вошли как:</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="1" Margin="10 5">Название кто я?</TextBlock>
+        </Grid>
+
+        <GroupBox Grid.Row="2" Grid.Column="0" Header="Варьируемые параметры модели" Padding="0 10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="0.4*"/>
+                    <RowDefinition Height="0.2*"/>
+                </Grid.RowDefinitions>
+
+                <!--TODO: возможно лучше использовать numericUpDown вместо textBox, для этого нужно библиотеку установить-->
+                <GroupBox Grid.Row="0" Header="Геометрические параметры канала" Padding="0 5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Длина, м</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="3" ></TextBox>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Header="Режимные параметры" Padding="0 5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Скорость движения крышки, м/с</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температура, °C</TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+
+                    </Grid>
+                </GroupBox>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.49*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Margin=" 6 15">Величина шага, м</TextBlock>
+                    <TextBox Grid.Column="1" Margin="6 11"></TextBox>
+                </Grid>
+            </Grid>
+        </GroupBox>
     </Grid>
+   
 </Window>
