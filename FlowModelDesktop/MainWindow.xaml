@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="FlowModel" Height="450" Width="900">
+        Title="FlowModel" Height="450" Width="900" MinHeight="450" MinWidth="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -20,7 +20,11 @@
 
         <!--TODO: Сделать выпадающие списки у элементов меню-->
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <MenuItem Header="Файл"></MenuItem>
+            <MenuItem Header="Файл">
+                <MenuItem Header="Сменить пользователя"></MenuItem>
+                <MenuItem Header="Графики"></MenuItem>
+                <MenuItem Header="Таблица значений"></MenuItem>
+            </MenuItem>
             <MenuItem Header="Справка"></MenuItem>
             <MenuItem Header="Помощь"></MenuItem>
         </Menu>
@@ -70,6 +74,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Длина, м</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
+                        
                         <TextBox Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
                         <TextBox Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
                         <TextBox Grid.Row="2" Grid.Column="1" Margin="3" ></TextBox>
@@ -89,6 +94,7 @@
 
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Скорость движения крышки, м/с</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температура, °C</TextBlock>
+                        
                         <TextBox Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
                         <TextBox Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
 
@@ -106,6 +112,82 @@
                 </Grid>
             </Grid>
         </GroupBox>
+
+        <GroupBox Grid.Row="2" Grid.Column="1" Header="Неизменяемые параметры модели" Padding="0 10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.33*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="Параметры свойств материала" Padding="0 10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Плотность, кг/м³</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Удельная теплоёмкость, Дж/(кг*°C)</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура плавления, °C</TextBlock>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="1" Margin="3">0</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="3">0</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Margin="3" >0</TextBlock>
+
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Header="Эмперические коэффициенты математической модели" Padding="0 10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                            <RowDefinition Height="0.33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Коэффициент консистенции, Па*с</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температурный коэффициент вязкости, 1/°C</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура приведения, °C</TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="3">Индекс течения материала</TextBlock>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Коэфиициент теплоотдачи материала, Вт/(м²*с)</TextBlock>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" Margin="3">0</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="3">0</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Margin="3" >0</TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Margin="3" >0</TextBlock>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Margin="3" >0</TextBlock>
+
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.33*"/>
+                <RowDefinition Height="0.33*"/>
+                <RowDefinition Height="0.33*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.33*"/>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.33*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="1" Grid.Column="1"> Рассчитать</Button>
+        </Grid>
     </Grid>
    
 </Window>
