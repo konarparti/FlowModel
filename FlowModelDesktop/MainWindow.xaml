@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="FlowModel" Height="450" Width="900" MinHeight="450" MinWidth="900">
+        Title="FlowModel" Height="450" Width="1080" MinHeight="450" MinWidth="1080" FontFamily="Courier New" FontWeight="Heavy" FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
