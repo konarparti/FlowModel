@@ -1,11 +1,12 @@
 ﻿<Window x:Class="FlowModelDesktop.MainWindow"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="FlowModel" Height="450" Width="1080" MinHeight="450" MinWidth="1080" FontFamily="Courier New" FontWeight="Heavy" FontSize="14">
+        Title="FlowModel" Height="500" Width="1080" MinHeight="500" MinWidth="1080" FontWeight="DemiBold" FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -75,9 +76,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
                         
-                        <TextBox Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="3" ></TextBox>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" ></xctk:DecimalUpDown>
                     </Grid>
                 </GroupBox>
 
@@ -94,9 +95,9 @@
 
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Скорость движения крышки, м/с</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температура, °C</TextBlock>
-                        
-                        <TextBox Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -108,7 +109,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Margin=" 6 15">Величина шага, м</TextBlock>
-                    <TextBox Grid.Column="1" Margin="6 11"></TextBox>
+                    <xctk:DecimalUpDown Grid.Column="1" Margin="6 11"></xctk:DecimalUpDown>
                 </Grid>
             </Grid>
         </GroupBox>
@@ -135,10 +136,10 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Плотность, кг/м³</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Удельная теплоёмкость, Дж/(кг*°C)</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура плавления, °C</TextBlock>
-                        
-                        <TextBlock Grid.Row="0" Grid.Column="1" Margin="3">0</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="3">0</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Margin="3" >0</TextBlock>
+
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1"  ></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -163,11 +164,11 @@
                         <TextBlock Grid.Row="3" Grid.Column="0" Margin="3">Индекс течения материала</TextBlock>
                         <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Коэфиициент теплоотдачи материала, Вт/(м²*с)</TextBlock>
 
-                        <TextBlock Grid.Row="0" Grid.Column="1" Margin="3">0</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="3">0</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Margin="3" >0</TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Margin="3" >0</TextBlock>
-                        <TextBlock Grid.Row="4" Grid.Column="1" Margin="3" >0</TextBlock>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
