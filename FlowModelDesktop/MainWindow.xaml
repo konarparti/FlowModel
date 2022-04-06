@@ -76,9 +76,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
                         
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
                     </Grid>
                 </GroupBox>
 
@@ -96,8 +96,8 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Скорость движения крышки, м/с</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температура, °C</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="0.5" Increment="0.5"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -109,7 +109,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Margin=" 6 15">Величина шага, м</TextBlock>
-                    <xctk:DecimalUpDown Grid.Column="1" Margin="6 11"></xctk:DecimalUpDown>
+                    <xctk:DecimalUpDown Grid.Column="1" Margin="6 11" Minimum="1"></xctk:DecimalUpDown>
                 </Grid>
             </Grid>
         </GroupBox>
