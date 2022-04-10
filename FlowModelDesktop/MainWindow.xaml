@@ -75,9 +75,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.L, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.H, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.L}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.W}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.H}"></xctk:DecimalUpDown>
                     </Grid>
                 </GroupBox>
 
