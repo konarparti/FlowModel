@@ -8,7 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WPF_MVVM_Classes">
+      <HintPath>Services\WPF_MVVM_Classes.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

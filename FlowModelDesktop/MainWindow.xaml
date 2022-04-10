@@ -59,7 +59,6 @@
                     <RowDefinition Height="0.2*"/>
                 </Grid.RowDefinitions>
 
-                <!--TODO: возможно лучше использовать numericUpDown вместо textBox, для этого нужно библиотеку установить-->
                 <GroupBox Grid.Row="0" Header="Геометрические параметры канала" Padding="0 5">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -75,10 +74,10 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Длина, м</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
-                        
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
+
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.L, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.H, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
                     </Grid>
                 </GroupBox>
 
@@ -96,8 +95,8 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Скорость движения крышки, м/с</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температура, °C</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="0.5" Increment="0.5"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="0.5" Increment="0.5" Value="{Binding InputData.Vu}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="1" Value="{Binding InputData.Tu}"></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -109,7 +108,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Margin=" 6 15">Величина шага, м</TextBlock>
-                    <xctk:DecimalUpDown Grid.Column="1" Margin="6 11" Minimum="1"></xctk:DecimalUpDown>
+                    <xctk:DecimalUpDown Grid.Column="1" Margin="6 11" Minimum="1" Value="{Binding InputData.DeltaZ}"></xctk:DecimalUpDown>
                 </Grid>
             </Grid>
         </GroupBox>
@@ -137,9 +136,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Удельная теплоёмкость, Дж/(кг*°C)</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура плавления, °C</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1"  ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" Value="{Binding DbData.ro}" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" Value="{Binding DbData.c}" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" Value="{Binding DbData.To}"  ></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -164,11 +163,11 @@
                         <TextBlock Grid.Row="3" Grid.Column="0" Margin="3">Индекс течения материала</TextBlock>
                         <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Коэфиициент теплоотдачи материала, Вт/(м²*с)</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" Value="{Binding DbData.alpha_u}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" Value="{Binding DbData.Mu}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" Value="{Binding DbData.Tr}" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" Value="{Binding DbData.n}" ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" Value="{Binding DbData.b}" ></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -187,7 +186,7 @@
                 <ColumnDefinition Width="0.33*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="1" Grid.Column="1"> Рассчитать</Button>
+            <Button Grid.Row="1" Grid.Column="1" Command="{Binding CalculateCommand}"> Рассчитать</Button>
         </Grid>
     </Grid>
    
