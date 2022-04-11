@@ -14,12 +14,18 @@ namespace FlowModelDesktop.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        #region Variables
+
         private InputData _inputData = new InputData();
         private DbData _dbData = new DbData();
         private IEnumerable<decimal> _temperatureP;
         private IEnumerable<decimal> _viscosity;
         private RelayCommand? _calculateCommand;
         private RelayCommand? _openChartsCommand;
+
+        #endregion
+
+        #region Properties
 
         public InputData InputData
         {
@@ -61,6 +67,9 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
+        #endregion
+
+        #region Commands
 
         public RelayCommand CalculateCommand
         {
@@ -87,5 +96,9 @@ namespace FlowModelDesktop.ViewModel
                 });
             }
         }
+
+        #endregion
+
+
     }
 }

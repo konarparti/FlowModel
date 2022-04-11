@@ -12,11 +12,17 @@ namespace FlowModelDesktop.ViewModel
 {
     public class ChartsWindowViewModel : ViewModelBase
     {
+        #region Variables
+
         private ChartValues<decimal> temperatureChart = new ChartValues<decimal>();
         private ChartValues<decimal> viscosityChart = new ChartValues<decimal>();
 
         private SeriesCollection _temperature;
         private SeriesCollection _viscosity;
+
+        #endregion
+
+        #region Constructors
 
         public ChartsWindowViewModel(IEnumerable<decimal> Tp, IEnumerable<decimal> Eta)
         {
@@ -40,6 +46,10 @@ namespace FlowModelDesktop.ViewModel
             };
         }
 
+        #endregion
+
+        #region Properties
+
         public SeriesCollection Temperature
         {
             get => _temperature;
@@ -59,6 +69,9 @@ namespace FlowModelDesktop.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        #endregion
+
 
     }
 }
