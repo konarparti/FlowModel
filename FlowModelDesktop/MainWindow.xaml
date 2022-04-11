@@ -23,7 +23,7 @@
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Файл">
                 <MenuItem Header="Сменить пользователя"></MenuItem>
-                <MenuItem Header="Графики"></MenuItem>
+                <MenuItem Header="Графики" Command="{Binding OpenChartsCommand}"></MenuItem>
                 <MenuItem Header="Таблица значений"></MenuItem>
             </MenuItem>
             <MenuItem Header="Справка"></MenuItem>
