@@ -7,7 +7,7 @@ using System.Windows;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Services;
 using WPF_MVVM_Classes;
-using Math = FlowModelDesktop.Models.Math;
+using Math = FlowModelDesktop.Models.MathModel;
 using ViewModelBase = FlowModelDesktop.Services.ViewModelBase;
 
 namespace FlowModelDesktop.ViewModel
@@ -16,9 +16,10 @@ namespace FlowModelDesktop.ViewModel
     {
         private InputData _inputData = new InputData();
         private DbData _dbData = new DbData();
+        private IEnumerable<decimal> _temperatureP;
+        private IEnumerable<decimal> _viscosity;
         private RelayCommand? _calculateCommand;
         private RelayCommand? _openChartsCommand;
-
 
         public InputData InputData
         {
@@ -40,6 +41,26 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
+        public IEnumerable<decimal> TemperatureP
+        {
+            get => _temperatureP;
+            set
+            {
+                _temperatureP = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IEnumerable<decimal> Viscosity
+        {
+            get => _viscosity;
+            set
+            {
+                _viscosity = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public RelayCommand CalculateCommand
         {
@@ -48,8 +69,9 @@ namespace FlowModelDesktop.ViewModel
                 return _calculateCommand ??= new RelayCommand(x =>
                 {
                     var math = new Math();
-                    math.Calculation(InputData, DbData, out decimal Q, out decimal Tp, out decimal Etap);
-                    MessageBox.Show($"Q = {System.Math.Round(Q,2)}\nTp = {System.Math.Round(Tp,2)}\nEtap = {System.Math.Round(Etap,2)}");
+                    math.Calculation(InputData, DbData, out decimal Q, out List<decimal> Tp, out List<decimal> Etap);
+                    TemperatureP = Tp;
+                    Viscosity = Etap;
                 });
             }
         }
@@ -60,7 +82,7 @@ namespace FlowModelDesktop.ViewModel
             {
                 return _openChartsCommand ??= new RelayCommand(x =>
                 {
-                    var child = new ChartsWindowViewModel(1);
+                    var child = new ChartsWindowViewModel(TemperatureP, Viscosity);
                     Show(child);
                 });
             }

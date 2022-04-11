@@ -6,8 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="ChartsWindow" Height="450" Width="800">
+        Title="ChartsWindow" Height="450" Width="1600">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <lvc:CartesianChart Grid.Column="0" Series="{Binding Temperature}" />
+        <lvc:CartesianChart Grid.Column="1" Series="{Binding Viscosity}" />
     </Grid>
 </Window>
