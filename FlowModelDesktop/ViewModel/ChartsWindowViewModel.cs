@@ -29,47 +29,47 @@ namespace FlowModelDesktop.ViewModel
             temperatureChart.AddRange(Tp);
             viscosityChart.AddRange(Eta);
 
-            _temperature = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Values = temperatureChart
-                },
-            };
+            //_temperature = new SeriesCollection
+            //{
+            //    new LineSeries
+            //    {
+            //        Values = temperatureChart
+            //    },
+            //};
 
-            _viscosity = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Values = viscosityChart
-                },
-            };
+            //_viscosity = new SeriesCollection
+            //{
+            //    new LineSeries
+            //    {
+            //        Values = viscosityChart
+            //    },
+            //};
         }
 
         #endregion
 
         #region Properties
 
-        public SeriesCollection Temperature
+        public ChartValues<decimal> Temperature
         {
-            get => _temperature;
+            get => temperatureChart;
             set
             {
-                _temperature = value;
+                temperatureChart = value;
                 OnPropertyChanged();
             }
         }
 
-        public SeriesCollection Viscosity
+        public ChartValues<decimal> Viscosity
         {
-            get => _viscosity;
+            get => viscosityChart;
             set
             {
-                _viscosity = value;
+                viscosityChart = value;
                 OnPropertyChanged();
             }
         }
-
+        
         #endregion
 
 

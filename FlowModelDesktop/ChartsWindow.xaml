@@ -6,13 +6,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="ChartsWindow" Height="450" Width="1600">
+        Title="Графики распределения температуры и вязкости продукта по длине канала" Height="450" Width="1500" MinHeight="450" MinWidth="1500" FontSize="16">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
-        <lvc:CartesianChart Grid.Column="0" Series="{Binding Temperature}" />
-        <lvc:CartesianChart Grid.Column="1" Series="{Binding Viscosity}" />
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="1" HorizontalAlignment="Center">Распределение температуры материала по длине канала</Label>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="1" HorizontalAlignment="Center">Распределение вязкости материала по длине канала</Label>
+        </Grid>
+
+        <!--TODO: определиться с цветом линии графика и заливкой области под графиком-->
+        <lvc:CartesianChart Grid.Row="1" Grid.Column="0">
+            <lvc:CartesianChart.Series>
+                <lvc:LineSeries Title="Температура, °C =" Values="{Binding Temperature}" Stroke="Crimson" Fill="Transparent">
+                </lvc:LineSeries>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Номер шага" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Температура продукта, °C" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart Grid.Row="1" Grid.Column="1">
+            <lvc:CartesianChart.Series>
+                <lvc:LineSeries Title="Вязкость, Па*с =" Values="{Binding Viscosity}" >
+                </lvc:LineSeries>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Номер шага" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Вязкость продукта, Па*с" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
     </Grid>
 </Window>

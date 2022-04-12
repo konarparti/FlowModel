@@ -44,8 +44,8 @@ namespace FlowModelDesktop.Models
                         ((dbData.b * q_gamma + inputData.W * dbData.alpha_u) / (dbData.b * q_alpha))
                         * (1 - DecimalPow((decimal) System.Math.E, ((-dbData.b * q_alpha * z) / (dbData.ro * dbData.c * Qch))))
                         + DecimalPow((decimal) System.Math.E, (dbData.b * (dbData.To - dbData.Tr - ((q_alpha * z) / (dbData.ro * dbData.c * Qch))))));
-                    Tp_List.Add(T);
-                    Eta_List.Add(dbData.Mu * DecimalPow((decimal) System.Math.E, (-dbData.b * (T - dbData.Tr))) * DecimalPow(gamma, (dbData.n - 1)));
+                    Tp_List.Add(System.Math.Round(T, 2));
+                    Eta_List.Add(System.Math.Round(dbData.Mu * DecimalPow((decimal) System.Math.E, (-dbData.b * (T - dbData.Tr))) * DecimalPow(gamma, (dbData.n - 1)), 2));
                 }
             }
 

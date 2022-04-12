@@ -102,9 +102,9 @@ namespace FlowModelDesktop.ViewModel
                     math.Calculation(InputData, DbData, out decimal Q, out List<decimal> Tp, out List<decimal> Etap);
                     TemperatureP = Tp;
                     Viscosity = Etap;
-                    MessageBox.Show($"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n " +
-                                    $"Температура продукта(температура материала на выходе из канала), ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
-                                    $"Вязкость продукта (вязкость материала на выходе из канала), Па*с: {System.Math.Round(Etap.Last(), 2)}",
+                    MessageBox.Show($"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n" +
+                                    $"Температура продукта, ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
+                                    $"Вязкость продукта, Па*с: {System.Math.Round(Etap.Last(), 2)}",
                         "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
                 });
             }
@@ -116,8 +116,14 @@ namespace FlowModelDesktop.ViewModel
             {
                 return _openChartsCommand ??= new RelayCommand(x =>
                 {
-                    var child = new ChartsWindowViewModel(TemperatureP, Viscosity);
-                    Show(child);
+                    // ReSharper disable twice ConditionIsAlwaysTrueOrFalse
+                    if(TemperatureP == null || Viscosity == null)
+                        MessageBox.Show("Для построения графиков необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    else
+                    {
+                        var child = new ChartsWindowViewModel(TemperatureP, Viscosity);
+                        Show(child);
+                    }
                 });
             }
         }
