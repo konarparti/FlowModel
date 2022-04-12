@@ -81,6 +81,10 @@ namespace FlowModelDesktop.ViewModel
                     math.Calculation(InputData, DbData, out decimal Q, out List<decimal> Tp, out List<decimal> Etap);
                     TemperatureP = Tp;
                     Viscosity = Etap;
+                    MessageBox.Show($"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n " +
+                                    $"Температура продукта(температура материала на выходе из канала), ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
+                                    $"Вязкость продукта (вязкость материала на выходе из канала), Па*с: {System.Math.Round(Etap.Last(), 2)}",
+                        "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
                 });
             }
         }
