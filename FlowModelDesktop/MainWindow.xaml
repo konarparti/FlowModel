@@ -6,11 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="FlowModel" Height="500" Width="1080" MinHeight="500" MinWidth="1200" FontWeight="DemiBold" FontSize="14">
+        Title="FlowModel" Height="550" Width="1080" MinHeight="550" MinWidth="1200" FontWeight="DemiBold" FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>            
             <RowDefinition Height="*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
@@ -31,25 +30,14 @@
         </Menu>
 
         <!--TODO: это переместить после геометрических параметров объекта--> 
-        <Grid Grid.Row="1" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*" />
-                <ColumnDefinition Width="0.4*" />
-                <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
+                
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Выбор материала:</TextBlock>
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5"></ComboBox>
-        </Grid>
-
-        
-
-        <GroupBox Grid.Row="2" Grid.Column="0" Header="Входные параметры" Padding="0 10">
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Входные параметры" Padding="0 10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="0.1*"/>
                     <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.18*"/>
                 </Grid.RowDefinitions>
 
                 <GroupBox Grid.Row="0" Header="Геометрические параметры канала" Padding="0 5">
@@ -74,7 +62,17 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox Grid.Row="1" Header="Параметры свойств материала" Padding="0 10">
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.48*" />
+                        <ColumnDefinition Width="0.5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Выбор материала:</TextBlock>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5"></ComboBox>
+                </Grid>
+
+                <GroupBox Grid.Row="2" Header="Параметры свойств материала" Padding="0 10">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.33*"/>
@@ -96,80 +94,91 @@
 
                     </Grid>
                 </GroupBox>
-
-                <GroupBox Grid.Row="2" Header="Варьируемые режимные параметры" Padding="0 5">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.5*"/>
-                            <RowDefinition Height="0.5*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="17*"/>
-                            <ColumnDefinition Width="79*"/>
-                            <ColumnDefinition Width="96*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,3" Grid.ColumnSpan="2">Скорость движения крышки, м/с</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3,3,3,3" Grid.ColumnSpan="2">Температура крышки, °C</TextBlock>
-
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="2" Margin="3,3,3,3" Minimum="0.01" Increment="0.5" Value="{Binding InputData.Vu}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="2" Margin="3,3,3,3" Minimum="0.01" Value="{Binding InputData.Tu}"></xctk:DecimalUpDown>
-
-                    </Grid>
-                </GroupBox>
+               
             </Grid>
         </GroupBox>
 
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.18*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
 
-
-        <GroupBox Grid.Row="2" Grid.Column="1" Header="Параметры модели" Padding="0 10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.33*"/>
-                    <RowDefinition Height="0.5*"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
+            <GroupBox Grid.Row="0" Header="Варьируемые режимные параметры" Padding="0 5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.5*"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.49*"/>
-                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="79*"/>
+                        <ColumnDefinition Width="96*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!--TODO: Это надо пихнуть в блок groupBox параметры метода решения-->
-                    <TextBlock Grid.Column="0" Margin=" 6 15">Шаг расчета по длине канала, м</TextBlock>
-                    <xctk:DecimalUpDown Grid.Column="1" Margin="6 11" Minimum="0.01" Value="{Binding InputData.DeltaZ}"></xctk:DecimalUpDown>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,3" Grid.ColumnSpan="2">Скорость движения крышки, м/с</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3,3,3,3" Grid.ColumnSpan="2">Температура крышки, °C</TextBlock>
+
+                    <xctk:DecimalUpDown Grid.Row="0" Grid.Column="2" Margin="3,3,3,3" Minimum="0.01" Increment="0.5" Value="{Binding InputData.Vu}"></xctk:DecimalUpDown>
+                    <xctk:DecimalUpDown Grid.Row="1" Grid.Column="2" Margin="3,3,3,3" Minimum="0.01" Value="{Binding InputData.Tu}"></xctk:DecimalUpDown>
+
                 </Grid>
+            </GroupBox>
 
-                <GroupBox Grid.Row="1" Header="Эмперические коэффициенты математической модели" Padding="0 10">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.33*"/>
-                            <RowDefinition Height="0.33*"/>
-                            <RowDefinition Height="0.33*"/>
-                            <RowDefinition Height="0.33*"/>
-                            <RowDefinition Height="0.33*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.2*"/>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Коэффициент консистенции при температуре приведения, Па*с^n</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температурный коэффициент вязкости, 1/°C</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура приведения, °C</TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="3">Индекс течения материала</TextBlock>
-                        <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Коэффициент теплоотдачи к материалу, Вт/(м²*°C)</TextBlock>
+            <GroupBox Grid.Row="1" Header="Параметры модели" Padding="0 10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.5*"/>
+                    </Grid.RowDefinitions>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" Value="{Binding DbData.Mu}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" Value="{Binding DbData.b}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" Value="{Binding DbData.Tr}" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" Value="{Binding DbData.n}" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" Value="{Binding DbData.alpha_u}" ></xctk:DecimalUpDown>
 
-                    </Grid>
-                </GroupBox>
-            </Grid>
-        </GroupBox>
+                    <GroupBox Grid.Row="0" Header="Параметры метода решения" Padding="0 10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.49*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--TODO: Это надо пихнуть в блок groupBox параметры метода решения-->
+                            <TextBlock Grid.Column="0" Margin="3">Шаг расчета по длине канала, м</TextBlock>
+                            <xctk:DecimalUpDown Grid.Column="1" Minimum="0.01" Value="{Binding InputData.DeltaZ}"></xctk:DecimalUpDown>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Header="Эмперические коэффициенты математической модели" Padding="0 10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.33*"/>
+                                <RowDefinition Height="0.33*"/>
+                                <RowDefinition Height="0.33*"/>
+                                <RowDefinition Height="0.33*"/>
+                                <RowDefinition Height="0.33*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="3">Коэффициент консистенции при температуре приведения, Па*с^n</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Температурный коэффициент вязкости, 1/°C</TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура приведения, °C</TextBlock>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Margin="3">Индекс течения материала</TextBlock>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Коэффициент теплоотдачи к материалу, Вт/(м²*°C)</TextBlock>
+
+                            <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" Value="{Binding DbData.Mu}"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" Value="{Binding DbData.b}"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" Value="{Binding DbData.Tr}" ></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" Value="{Binding DbData.n}" ></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" Value="{Binding DbData.alpha_u}" ></xctk:DecimalUpDown>
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        
 
         <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
