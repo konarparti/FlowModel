@@ -16,8 +16,29 @@ namespace FlowModelDesktop.ViewModel
     {
         #region Variables
 
-        private InputData _inputData = new InputData();
-        private DbData _dbData = new DbData();
+        //TODO: Удалить инициализацию свойств здесь после того, как данные будут вводится/приходить из базы,
+        //это для того, чтобы не вводить каждый раз вручную данные нашего варианта
+        private InputData _inputData = new InputData()
+        {
+            W = 0.21M,
+            H = 0.01M,
+            L = 8.2M,
+            Vu = 1.2M,
+            Tu = 150M,
+            DeltaZ = 0.1M
+        };
+        private DbData _dbData = new DbData()
+        {
+            Mu = 10000M,
+            To = 140M,
+            Tr = 170M,
+            alpha_u = 450,
+            b = 0.04M,
+            c = 2100M,
+            n = 0.3M,
+            ro = 1200M
+
+        };
         private IEnumerable<decimal> _temperatureP;
         private IEnumerable<decimal> _viscosity;
         private RelayCommand? _calculateCommand;
