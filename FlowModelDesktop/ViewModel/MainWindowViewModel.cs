@@ -44,6 +44,7 @@ namespace FlowModelDesktop.ViewModel
         private IEnumerable<decimal> _viscosity;
         private RelayCommand? _calculateCommand;
         private RelayCommand? _openChartsCommand;
+        private RelayCommand? _openTableCommand;
 
         #endregion
 
@@ -110,7 +111,7 @@ namespace FlowModelDesktop.ViewModel
                                         $"Температура продукта, ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
                                         $"Вязкость продукта, Па*с: {System.Math.Round(Etap.Last(), 2)}\n" +
                                         $"Время расчета, мс: {time.TotalMilliseconds}\n" +
-                                        $"Объем занимаемой опреативной памяти, Кб: {memory / 1024}",
+                                        $"Объем занимаемой оперативной памяти, Кб: {memory / 1024}",
                             "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception ex)
@@ -141,7 +142,7 @@ namespace FlowModelDesktop.ViewModel
                     else
                     {
                         var child = new ChartsWindowViewModel(TemperatureP, Viscosity);
-                        Show(child);
+                        ShowChart(child);
                     }
                 });
             }
@@ -149,6 +150,21 @@ namespace FlowModelDesktop.ViewModel
 
         #endregion
 
-
+        public RelayCommand OpenTableCommand
+        {
+            get
+            {
+                return _openTableCommand ??= new RelayCommand(x =>
+                {
+                    if (TemperatureP == null || Viscosity == null)
+                        MessageBox.Show("Для построения таблицы необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    else
+                    {
+                        var child = new TableWindowViewModel((List<decimal>)TemperatureP, (List<decimal>)Viscosity);
+                        ShowTable(child);
+                    }
+                });
+            }
+        }
     }
 }

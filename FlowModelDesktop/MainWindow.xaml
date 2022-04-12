@@ -22,10 +22,9 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Сменить пользователя"></MenuItem>
                 <MenuItem Header="Графики" Command="{Binding OpenChartsCommand}"></MenuItem>
-                <MenuItem Header="Таблица значений"></MenuItem>
+                <MenuItem Header="Таблица значений" Command="{Binding OpenTableCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Справка"></MenuItem>
-            <MenuItem Header="Помощь"></MenuItem>
         </Menu>
 
                 
@@ -67,7 +66,9 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Выбор материала:</TextBlock>
-                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5"></ComboBox>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5" SelectedIndex="0">
+                        <ComboBoxItem Content="Поливинил-хлорид"></ComboBoxItem>
+                    </ComboBox>
                 </Grid>
 
                 <GroupBox Grid.Row="2" Header="Параметры свойств материала" Padding="0 10">

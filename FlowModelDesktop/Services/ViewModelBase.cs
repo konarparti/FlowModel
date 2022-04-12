@@ -35,6 +35,7 @@ namespace FlowModelDesktop.Services
         /// Окно в котором показывается текущий ViewModel
         ///
         private ChartsWindow _window = null;
+        private TableWindow _tableWindow = null;
 
         protected virtual void Closed()
         {
@@ -60,7 +61,7 @@ namespace FlowModelDesktop.Services
         /// Метод показа ViewModel в окне
         ///
         /// viewModel">
-        protected void Show(ViewModelBase viewModel)
+        protected void ShowChart(ViewModelBase viewModel)
         {
             viewModel._window = new ChartsWindow
             {
@@ -68,6 +69,16 @@ namespace FlowModelDesktop.Services
             };
             viewModel._window.Closed += (sender, e) => Closed();
             viewModel._window.Show();
+        }
+
+        protected void ShowTable(ViewModelBase viewModel)
+        {
+            viewModel._tableWindow = new TableWindow()
+            {
+                DataContext = viewModel
+            };
+            viewModel._tableWindow.Closed += (sender, e) => Closed();
+            viewModel._tableWindow.Show();
         }
     }
 }
