@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FlowModelDesktop.Models
 {
@@ -23,8 +25,11 @@ namespace FlowModelDesktop.Models
             return (decimal)System.Math.Log10(decimal.ToDouble(x));
         }
 
-        public void Calculation(InputData inputData, DbData dbData, out decimal Q, out List<decimal> Tp_List, out List<decimal> Eta_List)
+        public void Calculation(InputData inputData, DbData dbData, out decimal Q, out List<decimal> Tp_List, out List<decimal> Eta_List, out TimeSpan time, out long memory)
         {
+            var stopwatch = new Stopwatch();
+            var process = Process.GetCurrentProcess();
+            stopwatch.Start();
             decimal F = 0.125m * DecimalPow((inputData.H / inputData.W), 2) - 0.625m * (inputData.H / inputData.W) + 1;
             decimal Qch = (inputData.H * inputData.W * inputData.Vu * F) / 2;
             decimal gamma = inputData.Vu / inputData.H;
@@ -52,6 +57,10 @@ namespace FlowModelDesktop.Models
             Q = dbData.ro * Qch;
             decimal Tp = Tp_List[Tp_List.Count-1];
             decimal Etap = Eta_List[Eta_List.Count-1];
+            stopwatch.Stop();
+            time = stopwatch.Elapsed;
+            memory = process.PagedMemorySize64;
+
         }
     }
 }

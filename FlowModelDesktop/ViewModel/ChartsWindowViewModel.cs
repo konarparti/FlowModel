@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using FlowModelDesktop.Services;
+﻿using FlowModelDesktop.Services;
 using LiveCharts;
-using LiveCharts.Wpf;
+using System.Collections.Generic;
 
 namespace FlowModelDesktop.ViewModel
 {
@@ -14,11 +8,8 @@ namespace FlowModelDesktop.ViewModel
     {
         #region Variables
 
-        private ChartValues<decimal> temperatureChart = new ChartValues<decimal>();
-        private ChartValues<decimal> viscosityChart = new ChartValues<decimal>();
-
-        private SeriesCollection _temperature;
-        private SeriesCollection _viscosity;
+        private ChartValues<decimal> _temperatureChart = new();
+        private ChartValues<decimal> _viscosityChart = new();
 
         #endregion
 
@@ -26,24 +17,8 @@ namespace FlowModelDesktop.ViewModel
 
         public ChartsWindowViewModel(IEnumerable<decimal> Tp, IEnumerable<decimal> Eta)
         {
-            temperatureChart.AddRange(Tp);
-            viscosityChart.AddRange(Eta);
-
-            //_temperature = new SeriesCollection
-            //{
-            //    new LineSeries
-            //    {
-            //        Values = temperatureChart
-            //    },
-            //};
-
-            //_viscosity = new SeriesCollection
-            //{
-            //    new LineSeries
-            //    {
-            //        Values = viscosityChart
-            //    },
-            //};
+            _temperatureChart.AddRange(Tp);
+            _viscosityChart.AddRange(Eta);
         }
 
         #endregion
@@ -52,20 +27,20 @@ namespace FlowModelDesktop.ViewModel
 
         public ChartValues<decimal> Temperature
         {
-            get => temperatureChart;
+            get => _temperatureChart;
             set
             {
-                temperatureChart = value;
+                _temperatureChart = value;
                 OnPropertyChanged();
             }
         }
 
         public ChartValues<decimal> Viscosity
         {
-            get => viscosityChart;
+            get => _viscosityChart;
             set
             {
-                viscosityChart = value;
+                _viscosityChart = value;
                 OnPropertyChanged();
             }
         }

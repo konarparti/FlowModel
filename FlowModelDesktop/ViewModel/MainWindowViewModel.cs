@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,13 +100,31 @@ namespace FlowModelDesktop.ViewModel
                 return _calculateCommand ??= new RelayCommand(x =>
                 {
                     var math = new Math();
-                    math.Calculation(InputData, DbData, out decimal Q, out List<decimal> Tp, out List<decimal> Etap);
-                    TemperatureP = Tp;
-                    Viscosity = Etap;
-                    MessageBox.Show($"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n" +
-                                    $"Температура продукта, ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
-                                    $"Вязкость продукта, Па*с: {System.Math.Round(Etap.Last(), 2)}",
-                        "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
+                    try
+                    {
+                        math.Calculation(InputData, DbData, out decimal Q, out List<decimal> Tp, out List<decimal> Etap,
+                            out TimeSpan time, out long memory);
+                        TemperatureP = Tp;
+                        Viscosity = Etap;
+                        MessageBox.Show($"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n" +
+                                        $"Температура продукта, ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
+                                        $"Вязкость продукта, Па*с: {System.Math.Round(Etap.Last(), 2)}\n" +
+                                        $"Время расчета, мс: {time.TotalMilliseconds}\n" +
+                                        $"Объем занимаемой опреативной памяти, Кб: {memory / 1024}",
+                            "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Что-то пошло не так, и мы это не обработали\n" +
+                                        "Информация по исключению:\n" +
+                                        $"Источник: {ex.Source}\n" +
+                                        $"Метод: {ex.TargetSite}\n" +
+                                        $"Собщение: {ex.Message}\n" +
+                                        $"Трассировка стека: {ex.StackTrace}\n" +
+                                        $"Внутренние исключения:{ex.InnerException}", "Исключение",
+                            MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+
                 });
             }
         }
