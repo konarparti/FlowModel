@@ -18,7 +18,6 @@
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
-        <!--TODO: Сделать выпадающие списки у элементов меню-->
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Файл">
                 <MenuItem Header="Сменить пользователя"></MenuItem>
@@ -29,7 +28,6 @@
             <MenuItem Header="Помощь"></MenuItem>
         </Menu>
 
-        <!--TODO: это переместить после геометрических параметров объекта--> 
                 
 
         <GroupBox Grid.Row="1" Grid.Column="0" Header="Входные параметры" Padding="0 10">
@@ -141,7 +139,6 @@
                                 <ColumnDefinition Width="0.5*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!--TODO: Это надо пихнуть в блок groupBox параметры метода решения-->
                             <TextBlock Grid.Column="0" Margin="3">Шаг расчета по длине канала, м</TextBlock>
                             <xctk:DecimalUpDown Grid.Column="1" Minimum="0.01" Value="{Binding InputData.DeltaZ}"></xctk:DecimalUpDown>
                         </Grid>
