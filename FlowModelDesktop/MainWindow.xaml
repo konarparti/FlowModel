@@ -67,7 +67,7 @@
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Выбор материала:</TextBlock>
                     <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5" SelectedIndex="0">
-                        <ComboBoxItem Content="Поливинил-хлорид"></ComboBoxItem>
+                        <ComboBoxItem Content="Поливинилхлорид"></ComboBoxItem>
                     </ComboBox>
                 </Grid>
 
@@ -145,7 +145,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="1" Header="Эмперические коэффициенты математической модели" Padding="0 10">
+                    <GroupBox Grid.Row="1" Header="Эмпирические коэффициенты математической модели" Padding="0 10">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0.33*"/>

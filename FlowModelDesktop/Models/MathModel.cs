@@ -22,7 +22,7 @@ namespace FlowModelDesktop.Models
 
         public static decimal DecimalLn(decimal x)
         {
-            return (decimal)System.Math.Log10(decimal.ToDouble(x));
+            return (decimal)System.Math.Log(decimal.ToDouble(x));
         }
 
         public void Calculation(InputData inputData, DbData dbData, out decimal Q, out List<decimal> Tp_List, out List<decimal> Eta_List, out TimeSpan time, out long memory)
