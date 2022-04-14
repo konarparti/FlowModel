@@ -169,7 +169,7 @@ namespace FlowModelDesktop.ViewModel
                         MessageBox.Show("Для построения таблицы необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     else
                     {
-                        var child = new TableWindowViewModel((List<decimal>)TemperatureP, (List<decimal>)Viscosity);
+                        var child = new TableWindowViewModel((List<decimal>)TemperatureP, (List<decimal>)Viscosity, InputData.DeltaZ);
                         ShowTable(child);
                     }
                 });

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +24,14 @@ namespace FlowModelDesktop
         public TableWindow()
         {
             InitializeComponent();
+        }
+        
+        private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyDescriptor is PropertyDescriptor descriptor)
+            {
+                e.Column.Header = descriptor.DisplayName ?? descriptor.Name;
+            }
         }
     }
 }

@@ -16,7 +16,8 @@
             <MenuItem Header="Создать отчёт"></MenuItem>
         </Menu>
 
-        <DataGrid Grid.Row="1" Margin="10" ItemsSource="{Binding TableData}" ColumnWidth="*">
+        <DataGrid Grid.Row="1" Margin="10" AutoGenerateColumns="True" AutoGeneratingColumn="OnAutoGeneratingColumn" ItemsSource="{Binding TableData}" ColumnWidth="*">
+            
         </DataGrid>
     </Grid>
 </Window>

@@ -23,12 +23,12 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
-        public TableWindowViewModel(List<decimal> TableTemperature, List<decimal> TableViscosity)
+        public TableWindowViewModel(List<decimal> TableTemperature, List<decimal> TableViscosity, decimal step)
         {
             _tableData = new List<Result>();
             for (int i = 0; i < TableTemperature.Count; i++)
             {
-                _tableData.Add(new Result(i, TableTemperature[i], TableViscosity[i]));
+                _tableData.Add(new Result(i * step, TableTemperature[i], TableViscosity[i]));
             }
         }
     }

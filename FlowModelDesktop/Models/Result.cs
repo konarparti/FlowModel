@@ -9,11 +9,14 @@ namespace FlowModelDesktop.Models
 {
     internal class Result
     {
-        public int Step { get; set; }
+        [DisplayName("Координата по длине канала, м")]
+        public decimal Step { get; set; }
+        [DisplayName("Температура материала, °C")]
         public decimal Temperature { get; set; }
+        [DisplayName("Вязкость материала, Па*с")]
         public decimal Viscosity { get; set; }
 
-        public Result(int step, decimal temperature, decimal viscosity)
+        public Result(decimal step, decimal temperature, decimal viscosity)
         {
             Step = step;
             Temperature = temperature;
