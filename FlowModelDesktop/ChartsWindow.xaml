@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="Графики распределения температуры и вязкости продукта по длине канала" Height="450" Width="1380" MinHeight="450" MinWidth="1380" FontSize="16">
+        Title="Графики распределения температуры и вязкости материала по длине канала" Height="450" Width="1380" MinHeight="450" MinWidth="1380" FontSize="16">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -44,23 +44,23 @@
                 </lvc:LineSeries>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Номер шага" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+                <lvc:Axis Title="Длина канала, м" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding Length}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Температура продукта, °C" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+                <lvc:Axis Title="Температура материала, °C" FontSize="16" FontWeight="Bold" Foreground="Black" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 
         <lvc:CartesianChart Grid.Row="1" Grid.Column="1">
             <lvc:CartesianChart.Series>
-                <lvc:LineSeries Title="Вязкость, Па*с =" Values="{Binding Viscosity}" >
+                <lvc:LineSeries Title="Вязкость, Па*с =" Values="{Binding Viscosity}" Stroke="Crimson" Fill="Transparent">
                 </lvc:LineSeries>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Номер шага" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+                <lvc:Axis Title="Длина канала, м" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding Length}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Вязкость продукта, Па*с" FontSize="16" FontWeight="Bold" Foreground="Black"></lvc:Axis>
+                <lvc:Axis Title="Вязкость материала, Па*с" FontSize="16" FontWeight="Bold" Foreground="Black" LabelFormatter="{Binding YFormatter}" MinValue="0"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>

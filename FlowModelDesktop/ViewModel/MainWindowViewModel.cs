@@ -114,11 +114,11 @@ namespace FlowModelDesktop.ViewModel
                             out TimeSpan time, out long memory);
                         TemperatureP = Tp;
                         Viscosity = Etap;
-                        MessageBox.Show("Критериальные показатели: \n" +
-                                        $"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n" +
+                        MessageBox.Show("Критериальные показатели объекта: \n" +
+                                        $"Производительность канала, кг/ч: {System.Math.Round(Q * 3600, 2) }\n" +
                                         $"Температура продукта, ºС: {Tp.Last()}\n" +
                                         $"Вязкость продукта, Па*с: {Etap.Last()}\n\n" +
-                                        "Показатели экономичности:\n"+
+                                        "Показатели экономичности программы:\n"+
                                         $"Время расчета, мс: {time.TotalMilliseconds}\n" +
                                         $"Объем занимаемой оперативной памяти, КБ: {memory / 1024}",
                             "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -150,7 +150,7 @@ namespace FlowModelDesktop.ViewModel
                         MessageBox.Show("Для построения графиков необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     else
                     {
-                        var child = new ChartsWindowViewModel(TemperatureP, Viscosity);
+                        var child = new ChartsWindowViewModel(TemperatureP, Viscosity, InputData.DeltaZ);
                         ShowChart(child);
                     }
                 });
