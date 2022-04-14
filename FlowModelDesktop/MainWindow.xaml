@@ -53,9 +53,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Ширина, м</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Глубина, м</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Minimum="0.01" Value="{Binding InputData.L}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Minimum="0.01" Value="{Binding InputData.W}"></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Minimum="0.01" Value="{Binding InputData.H}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Value="{Binding InputData.L}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Value="{Binding InputData.W}"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Value="{Binding InputData.H}"></xctk:DecimalUpDown>
                     </Grid>
                 </GroupBox>
 
@@ -118,8 +118,8 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,3" Grid.ColumnSpan="2">Скорость движения крышки, м/с</TextBlock>
                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="3,3,3,3" Grid.ColumnSpan="2">Температура крышки, °C</TextBlock>
 
-                    <xctk:DecimalUpDown Grid.Row="0" Grid.Column="2" Margin="3,3,3,3" Minimum="0.01" Increment="0.5" Value="{Binding InputData.Vu}"></xctk:DecimalUpDown>
-                    <xctk:DecimalUpDown Grid.Row="1" Grid.Column="2" Margin="3,3,3,3" Minimum="0.01" Value="{Binding InputData.Tu}"></xctk:DecimalUpDown>
+                    <xctk:DecimalUpDown Grid.Row="0" Grid.Column="2" Margin="3,3,3,3" Increment="0.5" Value="{Binding InputData.Vu}"></xctk:DecimalUpDown>
+                    <xctk:DecimalUpDown Grid.Row="1" Grid.Column="2" Margin="3,3,3,3" Value="{Binding InputData.Tu}"></xctk:DecimalUpDown>
 
                 </Grid>
             </GroupBox>
@@ -141,7 +141,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0" Margin="3">Шаг расчета по длине канала, м</TextBlock>
-                            <xctk:DecimalUpDown Grid.Column="1" Minimum="0.01" Value="{Binding InputData.DeltaZ}"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Column="1" Value="{Binding InputData.DeltaZ}"></xctk:DecimalUpDown>
                         </Grid>
                     </GroupBox>
 

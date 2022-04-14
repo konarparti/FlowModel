@@ -103,15 +103,24 @@ namespace FlowModelDesktop.ViewModel
                     var math = new Math();
                     try
                     {
+                        CheckValues(out var errors);
+                        if (errors != string.Empty)
+                        {
+                            MessageBox.Show(errors, "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
                         math.Calculation(InputData, DbData, out decimal Q, out List<decimal> Tp, out List<decimal> Etap,
                             out TimeSpan time, out long memory);
                         TemperatureP = Tp;
                         Viscosity = Etap;
-                        MessageBox.Show($"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n" +
-                                        $"Температура продукта, ºС: {System.Math.Round(Tp.Last(), 2)}\n" +
-                                        $"Вязкость продукта, Па*с: {System.Math.Round(Etap.Last(), 2)}\n" +
+                        MessageBox.Show("Критериальные показатели: \n" +
+                                        $"Производительность канала, кг/с: {System.Math.Round(Q, 2)}\n" +
+                                        $"Температура продукта, ºС: {Tp.Last()}\n" +
+                                        $"Вязкость продукта, Па*с: {Etap.Last()}\n\n" +
+                                        "Показатели экономичности:\n"+
                                         $"Время расчета, мс: {time.TotalMilliseconds}\n" +
-                                        $"Объем занимаемой оперативной памяти, Кб: {memory / 1024}",
+                                        $"Объем занимаемой оперативной памяти, КБ: {memory / 1024}",
                             "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception ex)
@@ -166,5 +175,26 @@ namespace FlowModelDesktop.ViewModel
                 });
             }
         }
+
+        #region Functions
+
+        private void CheckValues(out string errors)
+        {
+            errors = string.Empty;
+            if (InputData.W <= 0)
+                errors += "Ширина канала не может быть меньше или равна нулю\n";
+            if (InputData.H <= 0)
+                errors += "Высота канала не может быть меньше или равна нулю\n";
+            if (InputData.L <= 0)
+                errors += "Длина канала не может быть меньше или равна нулю\n";
+            if (InputData.Vu <= 0)
+                errors += "Скорость крышки не может быть меньше или равна нулю\n";
+            if (InputData.Tu <= 0)
+                errors += "Температура крышки не может быть меньше или равна нулю\n";
+            if (InputData.DeltaZ <= 0)
+                errors += "Величина шага не может быть меньше или равна нулю\n";
+        }
+
+        #endregion
     }
 }
