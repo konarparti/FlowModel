@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
-            <MenuItem Header="Создать отчёт"></MenuItem>
+            <MenuItem Header="Создать отчёт" Command="{Binding CreateReportCommand}"></MenuItem>
         </Menu>
 
         <DataGrid Grid.Row="1" Margin="10" AutoGenerateColumns="True" AutoGeneratingColumn="OnAutoGeneratingColumn" ItemsSource="{Binding TableData}" ColumnWidth="*">
