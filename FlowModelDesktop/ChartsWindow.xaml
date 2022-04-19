@@ -44,7 +44,7 @@
                 </lvc:LineSeries>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Длина канала, м" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding Length}"></lvc:Axis>
+                <lvc:Axis Title="Координата по длине канала, м" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding Length}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Температура материала, °C" FontSize="16" FontWeight="Bold" Foreground="Black" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
@@ -57,7 +57,7 @@
                 </lvc:LineSeries>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Длина канала, м" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding Length}"></lvc:Axis>
+                <lvc:Axis Title="Координата по длине канала, м" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding Length}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Вязкость материала, Па*с" FontSize="16" FontWeight="Bold" Foreground="Black" LabelFormatter="{Binding YFormatter}" MinValue="0"></lvc:Axis>

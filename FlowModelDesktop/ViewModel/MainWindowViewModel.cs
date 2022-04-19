@@ -45,6 +45,9 @@ namespace FlowModelDesktop.ViewModel
         private RelayCommand? _calculateCommand;
         private RelayCommand? _openChartsCommand;
         private RelayCommand? _openTableCommand;
+        private decimal _q;
+        private TimeSpan _time;
+        private decimal _memory;
 
         #endregion
 
@@ -114,6 +117,9 @@ namespace FlowModelDesktop.ViewModel
                             out TimeSpan time, out long memory);
                         TemperatureP = Tp;
                         Viscosity = Etap;
+                        _q = Q;
+                        _time = time;
+                        _memory = memory;
                         MessageBox.Show("Критериальные показатели объекта: \n" +
                                         $"Производительность канала, кг/ч: {System.Math.Round(Q * 3600, 2) }\n" +
                                         $"Температура продукта, ºС: {Tp.Last()}\n" +
@@ -169,7 +175,7 @@ namespace FlowModelDesktop.ViewModel
                         MessageBox.Show("Для построения таблицы необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     else
                     {
-                        var child = new TableWindowViewModel((List<decimal>)TemperatureP, (List<decimal>)Viscosity, InputData.DeltaZ);
+                        var child = new TableWindowViewModel((List<decimal>)TemperatureP, (List<decimal>)Viscosity, InputData, DbData, _q, _time, _memory);
                         ShowTable(child);
                     }
                 });
