@@ -89,7 +89,6 @@ namespace FlowModelDesktop.ViewModel
 
                     workSheet.Cells[2, 4] = "Тип материала";
                     workSheet.Cells[2, 4].Font.Bold = true;
-                    workSheet.Range[workSheet.Cells[2, 4], workSheet.Cells[2, 5]].Merge();
                     workSheet.Cells[2, 5] = "Поливинилхлорид";
 
                     workSheet.Cells[3, 4] = "Геометрические параметры канала:"; 
@@ -107,7 +106,7 @@ namespace FlowModelDesktop.ViewModel
                     workSheet.Range[workSheet.Cells[7, 4], workSheet.Cells[7, 5]].Merge();
                     workSheet.Cells[8, 4] = "Плотность материала, кг/м³";
                     workSheet.Cells[8, 5] = _dbData.ro;
-                    workSheet.Cells[9, 4] = "Удельная темлоёмкость, Дж/(кг*°C)";
+                    workSheet.Cells[9, 4] = "Удельная теплоёмкость, Дж/(кг*°C)";
                     workSheet.Cells[9, 5] = _dbData.c;
                     workSheet.Cells[10, 4] = "Температура плавления, °C";
                     workSheet.Cells[10, 5] = _dbData.To;
