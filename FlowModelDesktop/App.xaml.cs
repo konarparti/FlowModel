@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -18,6 +20,8 @@ namespace FlowModelDesktop
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentUICulture;
             var builder = new ContainerBuilder();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             var container = builder.Build();

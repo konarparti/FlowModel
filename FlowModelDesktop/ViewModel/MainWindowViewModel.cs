@@ -125,7 +125,7 @@ namespace FlowModelDesktop.ViewModel
                                         $"Температура продукта, ºС: {Tp.Last()}\n" +
                                         $"Вязкость продукта, Па*с: {Etap.Last()}\n\n" +
                                         "Показатели экономичности программы:\n"+
-                                        $"Время расчета, мс: {time.TotalMilliseconds}\n" +
+                                        $"Время расчета, мс: {System.Math.Round(time.TotalMilliseconds, 2)}\n" +
                                         $"Объем занимаемой оперативной памяти, КБ: {memory / 1024}",
                             "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
