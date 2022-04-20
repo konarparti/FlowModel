@@ -45,6 +45,7 @@ namespace FlowModelDesktop.ViewModel
         private RelayCommand? _calculateCommand;
         private RelayCommand? _openChartsCommand;
         private RelayCommand? _openTableCommand;
+        private RelayCommand? _openAuthorizationCommand;
         private decimal _q;
         private TimeSpan _time;
         private decimal _memory;
@@ -159,6 +160,18 @@ namespace FlowModelDesktop.ViewModel
                         var child = new ChartsWindowViewModel(TemperatureP, Viscosity, InputData.DeltaZ);
                         ShowChart(child);
                     }
+                });
+            }
+        }
+
+        public RelayCommand OpenAuthorizationCommand
+        {
+            get
+            {
+                return _openAuthorizationCommand ??= new RelayCommand(x =>
+                {
+                    var child = new AuthorizationWindowViewModel();
+                    ShowAuthorization(child);
                 });
             }
         }

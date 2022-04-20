@@ -20,7 +20,7 @@
 
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Файл">
-                <MenuItem Header="Сменить пользователя"></MenuItem>
+                <MenuItem Header="Сменить пользователя" Command="{Binding OpenAuthorizationCommand}"></MenuItem>
                 <MenuItem Header="Графики" Command="{Binding OpenChartsCommand}"></MenuItem>
                 <MenuItem Header="Таблица значений" Command="{Binding OpenTableCommand}"></MenuItem>
             </MenuItem>
