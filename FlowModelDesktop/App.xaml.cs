@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
+using FlowModelDesktop.Models;
+using FlowModelDesktop.Models.Data.Abstract;
+using FlowModelDesktop.Models.Data.EntityFramework;
 using FlowModelDesktop.ViewModel;
 
 namespace FlowModelDesktop
@@ -24,6 +27,12 @@ namespace FlowModelDesktop
             Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentUICulture;
             var builder = new ContainerBuilder();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
+            builder.RegisterType<FlowModelDbContext>().AsSelf();
+            builder.RegisterType<EFMaterialRepository>().As<IRepository<Material>>();
+            builder.RegisterType<EFMeasureRepository>().As<IRepository<Measure>>();
+            builder.RegisterType<EFParameterRepository>().As<IRepository<Parameter>>();
+            builder.RegisterType<EFParameterValueRepository>().As<IRepository<ParameterValue>>();
+            builder.RegisterType<EFTypeParameterRepository>().As<IRepository<TypeParameter>>();
             var container = builder.Build();
             var mainWindowViewModel = container.Resolve<MainWindowViewModel>();
             var mainWindow = new MainWindow { DataContext = mainWindowViewModel };
