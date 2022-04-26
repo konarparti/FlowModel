@@ -18,22 +18,41 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
 
         public IEnumerable<Parameter> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Parameters.ToList();
         }
 
-        public Parameter GetById(int id)
+        public Parameter GetById(long id)
         {
-            throw new NotImplementedException();
+            return _context.Parameters.First(m => m.Id == id);
         }
 
         public void Save(Parameter obj)
         {
-            throw new NotImplementedException();
+            if (obj.Id == 0)
+                _context.Parameters.Add(obj);
+            else
+            {
+                var dbEntry = _context.Parameters.FirstOrDefault(m => m.Id == obj.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = obj.Name;
+                    dbEntry.IdMeasure = obj.IdMeasure;
+                    dbEntry.IdTypeParam = obj.IdTypeParam;
+                    //TODO: Может тут умереть
+                    dbEntry.IdTypeParamNavigation = obj.IdTypeParamNavigation;
+                    dbEntry.IdMeasureNavigation = obj.IdMeasureNavigation; 
+                    dbEntry.ParameterValues = obj.ParameterValues;
+                }
+            }
+            _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
-            throw new NotImplementedException();
+            var value = _context.Parameters.Find(id);
+            if (value != null)
+                _context.Parameters.Remove(value);
+            _context.SaveChanges();
         }
     }
 }

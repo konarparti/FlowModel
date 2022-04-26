@@ -9,24 +9,49 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
 {
     public class EFUserRepository : IUserRepository
     {
+        private readonly IdentityFlowModelContext _context;
+
+        public EFUserRepository(IdentityFlowModelContext context)
+        {
+            _context = context;
+        }
         public IEnumerable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return _context.Users.ToList();
         }
 
         public bool VerifyUser(string username, string password)
         {
-            throw new NotImplementedException();
+            var value = _context.Users.FirstOrDefault(x => (x.Username == username && x.Password == password));
+            if (value != null)
+                return true;
+            else
+                return false;
         }
 
         public void SaveUser(User user)
         {
-            throw new NotImplementedException();
+            if (user.Id == 0)
+                _context.Users.Add(user);
+            else
+            {
+                var dbEntry = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Username = user.Username;
+                    dbEntry.Password = user.Password;
+                    dbEntry.Role = user.Role;
+                }
+            }
+            _context.SaveChanges();
         }
 
         public void DeleteUser(long id)
         {
-            throw new NotImplementedException();
+            var value = _context.Users.Find(id);
+            if (value != null)
+                _context.Users.Remove(value);
+            _context.SaveChanges();
         }
     }
 }
