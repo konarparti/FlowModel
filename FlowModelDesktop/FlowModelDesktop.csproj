@@ -36,4 +36,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="FlowModelDb.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IdentityFlowModel.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
