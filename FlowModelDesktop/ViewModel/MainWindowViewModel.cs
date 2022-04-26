@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FlowModelDesktop.Models;
+using FlowModelDesktop.Models.Data.Abstract;
 using FlowModelDesktop.Services;
 using WPF_MVVM_Classes;
 using Math = FlowModelDesktop.Models.MathModel;
@@ -15,6 +16,13 @@ namespace FlowModelDesktop.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private readonly IRepository<Material> _materialRepository;
+        private readonly IRepository<Measure> _measureRepository;
+        private readonly IRepository<Parameter> _parameterRepository;
+        private readonly IRepository<ParameterValue> _parameterValueRepository;
+        private readonly IRepository<TypeParameter> _typeParameterRepository;
+        private readonly IUserRepository _userRepository;
+
         #region Variables
 
         //TODO: Удалить инициализацию свойств здесь после того, как данные будут вводится/приходить из базы,
@@ -96,6 +104,18 @@ namespace FlowModelDesktop.ViewModel
 
         #endregion
 
+        public MainWindowViewModel(IRepository<Material> materialRepository, IRepository<Measure> measureRepository,
+            IRepository<Parameter> parameterRepository, IRepository<ParameterValue> parameterValueRepository, IRepository<TypeParameter> typeParameterRepository,
+            IUserRepository userRepository)
+        {
+            _materialRepository = materialRepository;
+            _measureRepository = measureRepository;
+            _parameterRepository = parameterRepository;
+            _parameterValueRepository = parameterValueRepository;
+            _typeParameterRepository = typeParameterRepository;
+            _userRepository = userRepository;
+        }
+
         #region Commands
 
         public RelayCommand CalculateCommand
@@ -170,7 +190,8 @@ namespace FlowModelDesktop.ViewModel
             {
                 return _openAuthorizationCommand ??= new RelayCommand(x =>
                 {
-                    var child = new AuthorizationWindowViewModel();
+                    var child = new AuthorizationWindowViewModel(_materialRepository, _measureRepository, _parameterRepository,
+                        _parameterValueRepository, _typeParameterRepository, _userRepository, this);
                     ShowAuthorization(child);
                 });
             }

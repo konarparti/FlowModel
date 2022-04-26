@@ -9,8 +9,8 @@ namespace FlowModelDesktop.Models.Data.Abstract
     public interface IRepository<T>
     {
         IEnumerable<T> GetAll();
-        T GetById(int id);
+        T GetById(long id);
         void Save(T obj);
-        void Delete(int id);
+        void Delete(long id);
     }
 }

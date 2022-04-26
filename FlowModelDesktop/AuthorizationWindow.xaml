@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Content="Логин" VerticalAlignment="Bottom"/>
-            <TextBox Grid.Row="1" Text="{Binding AuthorizationLogin}"
+            <TextBox Grid.Row="1" Text="{Binding Username}"
                      HorizontalAlignment="Left" TextWrapping="Wrap" Width="220"/>
         </Grid>
 
@@ -37,7 +37,7 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Content="Пароль" VerticalAlignment="Bottom"/>
-            <TextBox Grid.Row="1" Text="{Binding AuthorizationPassword}"
+            <TextBox Grid.Row="1" Text="{Binding Password}"
                      HorizontalAlignment="Left" TextWrapping="Wrap" Width="220"/>
         </Grid>
 

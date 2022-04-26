@@ -37,6 +37,7 @@ namespace FlowModelDesktop.Services
         private ChartsWindow _window = null;
         private TableWindow _tableWindow = null;
         private AuthorizationWindow _authorizationWindow = null;
+        private AdminWindow _adminWindow = null;
 
         protected virtual void Closed()
         {
@@ -55,6 +56,19 @@ namespace FlowModelDesktop.Services
                 _window = null;
                 result = true;
             }
+            return result;
+        }
+
+        public bool CloseAuthorizationWindow()
+        {
+            var result = false;
+            if (_authorizationWindow != null)
+            {
+                _authorizationWindow.Close();
+                _authorizationWindow = null;
+                result = true;
+            }
+
             return result;
         }
 
@@ -90,6 +104,17 @@ namespace FlowModelDesktop.Services
             };
             viewModel._authorizationWindow.Closed += (sender, e) => Closed();
             viewModel._authorizationWindow.Show();
+        }
+
+        protected void ShowAdmin(ViewModelBase viewModel)
+        {
+            viewModel._adminWindow = new AdminWindow()
+            {
+                DataContext = viewModel
+            };
+            viewModel._adminWindow.Closed += (sender, e) => Closed();
+            viewModel._adminWindow.Show();
+
         }
     }
 }
