@@ -16,14 +16,15 @@ namespace FlowModelDesktop.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+
+        #region Variables
+
         private readonly IRepository<Material> _materialRepository;
         private readonly IRepository<Measure> _measureRepository;
         private readonly IRepository<Parameter> _parameterRepository;
         private readonly IRepository<ParameterValue> _parameterValueRepository;
         private readonly IRepository<TypeParameter> _typeParameterRepository;
         private readonly IUserRepository _userRepository;
-
-        #region Variables
 
         //TODO: Удалить инициализацию свойств здесь после того, как данные будут вводится/приходить из базы,
         //это для того, чтобы не вводить каждый раз вручную данные нашего варианта
@@ -36,20 +37,11 @@ namespace FlowModelDesktop.ViewModel
             Tu = 150M,
             DeltaZ = 0.1M
         };
-        private DbData _dbData = new DbData()
-        {
-            Mu = 10000M,
-            To = 140M,
-            Tr = 170M,
-            alpha_u = 450,
-            b = 0.04M,
-            c = 2100M,
-            n = 0.3M,
-            ro = 1200M
 
-        };
+        private DbData _dbData = new DbData();
         private IEnumerable<decimal> _temperatureP;
         private IEnumerable<decimal> _viscosity;
+        private IEnumerable<Material> _allMaterials;
         private RelayCommand? _calculateCommand;
         private RelayCommand? _openChartsCommand;
         private RelayCommand? _openTableCommand;
@@ -57,6 +49,8 @@ namespace FlowModelDesktop.ViewModel
         private decimal _q;
         private TimeSpan _time;
         private decimal _memory;
+        private Material _selectedMaterial;
+        private Material _material;
 
         #endregion
 
@@ -102,6 +96,37 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
+        public IEnumerable<Material> AllMaterials
+        {
+            get => _allMaterials;
+            set
+            {
+                _allMaterials = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Material SelectedMaterial
+        {
+            get => _selectedMaterial;
+            set
+            {
+                _selectedMaterial = value;
+                MaterialChanged();
+                OnPropertyChanged();
+            }
+        }
+
+        public Material Material
+        {
+            get => _material;
+            set
+            {
+                _material = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         public MainWindowViewModel(IRepository<Material> materialRepository, IRepository<Measure> measureRepository,
@@ -114,6 +139,7 @@ namespace FlowModelDesktop.ViewModel
             _parameterValueRepository = parameterValueRepository;
             _typeParameterRepository = typeParameterRepository;
             _userRepository = userRepository;
+            _allMaterials = _materialRepository.GetAll();
         }
 
         #region Commands
@@ -233,6 +259,11 @@ namespace FlowModelDesktop.ViewModel
                 errors += "Температура крышки не может быть меньше или равна нулю\n";
             if (InputData.DeltaZ <= 0)
                 errors += "Величина шага не может быть меньше или равна нулю\n";
+        }
+
+        private void MaterialChanged()
+        {
+            Material = AllMaterials.First(x => x.Type == _selectedMaterial.Type);
         }
 
         #endregion

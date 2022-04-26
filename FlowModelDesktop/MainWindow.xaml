@@ -66,9 +66,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5">Выбор материала:</TextBlock>
-                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5" SelectedIndex="0">
-                        <ComboBoxItem Content="Поливинилхлорид"></ComboBoxItem>
-                    </ComboBox>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="10 5" SelectedItem="{Binding SelectedMaterial, Mode=TwoWay}" ItemsSource="{Binding AllMaterials}" DisplayMemberPath="Type" ></ComboBox>
                 </Grid>
 
                 <GroupBox Grid.Row="2" Header="Параметры свойств материала" Padding="0 10">
