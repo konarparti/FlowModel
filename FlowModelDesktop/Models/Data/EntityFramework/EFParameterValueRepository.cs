@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using FlowModelDesktop.Models.Data.Abstract;
 
 namespace FlowModelDesktop.Models.Data.EntityFramework
 {
-    public class EFParameterValueRepository : IRepository<ParameterValue>
+    public class EFParameterValueRepository : IParameterValueRepository
     {
         private readonly FlowModelDbContext _context;
 
@@ -21,10 +22,20 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             return _context.ParameterValues.ToList();
         }
 
-        //TODO: Уникальности нет из-за того, что тут составной ключ
-        public ParameterValue GetById(long id)
+        public IEnumerable<ParameterValue> GetByMaterialId(long matId)
         {
-            return _context.ParameterValues.First(m => m.IdMat == id);
+            return _context.ParameterValues.Where(pv => pv.IdMat == matId);
+        }
+
+        public IEnumerable<ParameterValue> GetByParameterId(long paramId)
+        {
+            return _context.ParameterValues.Where(pv => pv.IdParam == paramId);
+        }
+
+        public ParameterValue GetByBothId(long paramId, long matId)
+        {
+            var paramValue = _context.ParameterValues.First(pv => pv.IdMat == matId && pv.IdParam == paramId);
+            return paramValue;
         }
 
         public void Save(ParameterValue obj)
@@ -45,9 +56,9 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             _context.SaveChanges();
         }
 
-        public void Delete(long id)
+        public void Delete(long matId, long paramId)
         {
-            var value = _context.ParameterValues.Find(id);
+            var value = _context.ParameterValues.First(pv => pv.IdMat == matId && pv.IdParam == paramId);
             if (value != null)
                 _context.ParameterValues.Remove(value);
             _context.SaveChanges();

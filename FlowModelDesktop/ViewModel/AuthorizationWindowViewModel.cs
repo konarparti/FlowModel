@@ -18,7 +18,7 @@ namespace FlowModelDesktop.ViewModel
         private readonly IRepository<Material> _materialRepository;
         private readonly IRepository<Measure> _measureRepository;
         private readonly IRepository<Parameter> _parameterRepository;
-        private readonly IRepository<ParameterValue> _parameterValueRepository;
+        private readonly IParameterValueRepository _parameterValueRepository;
         private readonly IRepository<TypeParameter> _typeParameterRepository;
         private readonly IUserRepository _userRepository;
         private readonly MainWindowViewModel _viewModelBase;
@@ -30,7 +30,7 @@ namespace FlowModelDesktop.ViewModel
 
         #region Constructors
         public AuthorizationWindowViewModel(IRepository<Material> materialRepository, IRepository<Measure> measureRepository, 
-            IRepository<Parameter> parameterRepository, IRepository<ParameterValue> parameterValueRepository, IRepository<TypeParameter> typeParameterRepository,
+            IRepository<Parameter> parameterRepository, IParameterValueRepository parameterValueRepository, IRepository<TypeParameter> typeParameterRepository,
             IUserRepository userRepository, MainWindowViewModel viewModelBase)
         {
             _materialRepository = materialRepository;

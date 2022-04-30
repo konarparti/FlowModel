@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
+using FlowModelDesktop.Models.Data.EntityFramework;
 using FlowModelDesktop.Services;
 using WPF_MVVM_Classes;
 using Math = FlowModelDesktop.Models.MathModel;
@@ -22,7 +23,7 @@ namespace FlowModelDesktop.ViewModel
         private readonly IRepository<Material> _materialRepository;
         private readonly IRepository<Measure> _measureRepository;
         private readonly IRepository<Parameter> _parameterRepository;
-        private readonly IRepository<ParameterValue> _parameterValueRepository;
+        private readonly IParameterValueRepository _parameterValueRepository;
         private readonly IRepository<TypeParameter> _typeParameterRepository;
         private readonly IUserRepository _userRepository;
 
@@ -130,7 +131,7 @@ namespace FlowModelDesktop.ViewModel
         #endregion
 
         public MainWindowViewModel(IRepository<Material> materialRepository, IRepository<Measure> measureRepository,
-            IRepository<Parameter> parameterRepository, IRepository<ParameterValue> parameterValueRepository, IRepository<TypeParameter> typeParameterRepository,
+            IRepository<Parameter> parameterRepository, IParameterValueRepository parameterValueRepository, IRepository<TypeParameter> typeParameterRepository,
             IUserRepository userRepository)
         {
             _materialRepository = materialRepository;
@@ -171,7 +172,7 @@ namespace FlowModelDesktop.ViewModel
                                         $"Производительность канала, кг/ч: {System.Math.Round(Q * 3600, 2) }\n" +
                                         $"Температура продукта, ºС: {Tp.Last()}\n" +
                                         $"Вязкость продукта, Па*с: {Etap.Last()}\n\n" +
-                                        "Показатели экономичности программы:\n"+
+                                        "Показатели экономичности программы:\n" +
                                         $"Время расчета, мс: {System.Math.Round(time.TotalMilliseconds, 2)}\n" +
                                         $"Объем занимаемой оперативной памяти, КБ: {memory / 1024}",
                             "Результаты расчета", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -199,7 +200,7 @@ namespace FlowModelDesktop.ViewModel
                 return _openChartsCommand ??= new RelayCommand(x =>
                 {
                     // ReSharper disable twice ConditionIsAlwaysTrueOrFalse
-                    if(TemperatureP == null || Viscosity == null)
+                    if (TemperatureP == null || Viscosity == null)
                         MessageBox.Show("Для построения графиков необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     else
                     {
@@ -222,9 +223,6 @@ namespace FlowModelDesktop.ViewModel
                 });
             }
         }
-
-        #endregion
-
         public RelayCommand OpenTableCommand
         {
             get
@@ -241,6 +239,9 @@ namespace FlowModelDesktop.ViewModel
                 });
             }
         }
+
+        #endregion
+
 
         #region Functions
 
@@ -259,11 +260,40 @@ namespace FlowModelDesktop.ViewModel
                 errors += "Температура крышки не может быть меньше или равна нулю\n";
             if (InputData.DeltaZ <= 0)
                 errors += "Величина шага не может быть меньше или равна нулю\n";
+            if (SelectedMaterial == null)
+                errors += "Вы не выбрали тип материала\n";
         }
 
         private void MaterialChanged()
         {
             Material = AllMaterials.First(x => x.Type == _selectedMaterial.Type);
+            var parameterValues = _parameterValueRepository.GetByMaterialId((int)_selectedMaterial.Id);
+            List<Parameter> parameter = new List<Parameter>();
+            foreach (var item in parameterValues)
+            {
+                parameter.Add(_parameterRepository.GetById(item.IdParam));
+            }
+
+            var temp = new DbData()
+            {
+                ro = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Плотность").Id, _selectedMaterial.Id).Value,
+                To = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Температура плавления").Id, _selectedMaterial.Id).Value,
+                Tr = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Температура приведения").Id, _selectedMaterial.Id).Value,
+                Mu = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Коэффициент консистенции при температуре приведения").Id, _selectedMaterial.Id).Value,
+                c = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Удельная теплоёмкость").Id, _selectedMaterial.Id).Value,
+                alpha_u = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Коэффициент теплоотдачи к материалу").Id, _selectedMaterial.Id).Value,
+                b = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Температурный коэффициент вязкости").Id, _selectedMaterial.Id).Value,
+                n = (decimal)_parameterValueRepository.GetByBothId((int)parameter.First(p => p.Name == "Индекс течения материала").Id, _selectedMaterial.Id).Value
+            };
+
+            DbData = temp;
+
+            //очень сложная и странная система,
+            //сначала берется материал, который выбран, там известен id материала
+            // затем берутся все значения параметров, которые относятся к выбранному материалу (уже отсекаются ненужные значения и как следствие параметры)
+            // затем формируется список параметров, значение которых уже нашли выше
+            // затем каждому полю объекта DbData даем значение, которое берется из списка значений параметров, учитывая что его название должно быть таким какое надо
+
         }
 
         #endregion

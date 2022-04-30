@@ -85,9 +85,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="3">Удельная теплоёмкость, Дж/(кг*°C)</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="3">Температура плавления, °C</TextBlock>
 
-                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Value="{Binding DbData.ro}" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Value="{Binding DbData.c}" ></xctk:DecimalUpDown>
-                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Value="{Binding DbData.To}"  ></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="3" Value="{Binding DbData.ro}" IsReadOnly="True"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="3" Value="{Binding DbData.c}" IsReadOnly="True"></xctk:DecimalUpDown>
+                        <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="3" Value="{Binding DbData.To}"  IsReadOnly="True"></xctk:DecimalUpDown>
 
                     </Grid>
                 </GroupBox>
@@ -163,11 +163,11 @@
                             <TextBlock Grid.Row="3" Grid.Column="0" Margin="3">Индекс течения материала</TextBlock>
                             <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Коэффициент теплоотдачи к материалу, Вт/(м²*°C)</TextBlock>
 
-                            <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" Value="{Binding DbData.Mu}"></xctk:DecimalUpDown>
-                            <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" Value="{Binding DbData.b}"></xctk:DecimalUpDown>
-                            <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" Value="{Binding DbData.Tr}" ></xctk:DecimalUpDown>
-                            <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" Value="{Binding DbData.n}" ></xctk:DecimalUpDown>
-                            <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" Value="{Binding DbData.alpha_u}" ></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="0" Grid.Column="1" Margin="1" Value="{Binding DbData.Mu}" IsReadOnly="True"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="1" Grid.Column="1" Margin="1" Value="{Binding DbData.b}" IsReadOnly="True"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="2" Grid.Column="1" Margin="1" Value="{Binding DbData.Tr}" IsReadOnly="True"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="3" Grid.Column="1" Margin="1" Value="{Binding DbData.n}" IsReadOnly="True"></xctk:DecimalUpDown>
+                            <xctk:DecimalUpDown Grid.Row="4" Grid.Column="1" Margin="1" Value="{Binding DbData.alpha_u}" IsReadOnly="True"></xctk:DecimalUpDown>
 
                         </Grid>
                     </GroupBox>

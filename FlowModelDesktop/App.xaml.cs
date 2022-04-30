@@ -32,7 +32,7 @@ namespace FlowModelDesktop
             builder.RegisterType<EFMaterialRepository>().As<IRepository<Material>>();
             builder.RegisterType<EFMeasureRepository>().As<IRepository<Measure>>();
             builder.RegisterType<EFParameterRepository>().As<IRepository<Parameter>>();
-            builder.RegisterType<EFParameterValueRepository>().As<IRepository<ParameterValue>>();
+            builder.RegisterType<EFParameterValueRepository>().As<IParameterValueRepository>();
             builder.RegisterType<EFTypeParameterRepository>().As<IRepository<TypeParameter>>();
             builder.RegisterType<EFUserRepository>().As<IUserRepository>();
             var container = builder.Build();
