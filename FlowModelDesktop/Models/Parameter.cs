@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace FlowModelDesktop.Models
 {
@@ -9,10 +10,13 @@ namespace FlowModelDesktop.Models
         {
             ParameterValues = new HashSet<ParameterValue>();
         }
-
+        [DisplayName("Идентификатор")]
         public long Id { get; set; }
+        [DisplayName("Наименование")]
         public string Name { get; set; } = null!;
+        [DisplayName("Идентификатор типа параметра")]
         public long IdTypeParam { get; set; }
+        [DisplayName("Идентификатор единицы измерения")]
         public long? IdMeasure { get; set; }
 
         public virtual Measure? IdMeasureNavigation { get; set; }

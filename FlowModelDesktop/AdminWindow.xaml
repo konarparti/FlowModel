@@ -5,8 +5,90 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="450" Width="800">
+        Title="Панель администратора" Height="450" Width="800" SizeChanged="AdminWindow_OnSizeChanged">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="Файл">
+
+            </MenuItem>
+        </Menu>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Материалы">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMaterial, Mode=TwoWay}" ItemsSource="{Binding AllMaterials}" 
+                              ColumnWidth="*" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                    <Button Grid.Row="0" Grid.Column="1" Margin="20 7" Command="{Binding AddMaterialCommand}">Добавить</Button>
+                    <Button Grid.Row="1" Grid.Column="1" Margin="20 7" Command="{Binding EditMaterialCommand}">Изменить</Button>
+                    <Button Grid.Row="2" Grid.Column="1" Margin="20 7">Удалить</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Параметры">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedParameter, Mode=TwoWay}" ItemsSource="{Binding AllParameters}" 
+                              ColumnWidth="Auto" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Значения параметров">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedParameterValue, Mode=TwoWay}" ItemsSource="{Binding AllParameterValues}" 
+                              ColumnWidth="*" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Типы параметров">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedTypeParameter, Mode=TwoWay}" ItemsSource="{Binding AllTypeParameters}" 
+                              ColumnWidth="*" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Единицы измерения">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMeasure, Mode=TwoWay}" ItemsSource="{Binding AllMeasures}" 
+                              ColumnWidth="*" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Пользователи">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}" ItemsSource="{Binding AllUsers}" 
+                              ColumnWidth="*" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
