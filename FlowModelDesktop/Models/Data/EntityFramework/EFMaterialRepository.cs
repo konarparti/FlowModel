@@ -26,6 +26,11 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             return _context.Materials.First(m => m.Id == id);
         }
 
+        public Material GetByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Save(Material obj)
         {
             if (obj.Id == 0)

@@ -26,6 +26,11 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             return _context.Measures.First(m => m.Id == id);
         }
 
+        public Measure GetByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Save(Measure obj)
         {
             if (obj.Id == 0)

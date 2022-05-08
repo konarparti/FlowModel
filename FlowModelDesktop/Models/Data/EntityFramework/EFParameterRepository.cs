@@ -26,6 +26,11 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             return _context.Parameters.First(m => m.Id == id);
         }
 
+        public Parameter GetByName(string name)
+        {
+            return _context.Parameters.FirstOrDefault(m => m.Name.Contains(name));
+        }
+
         public void Save(Parameter obj)
         {
             if (obj.Id == 0)

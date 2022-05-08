@@ -40,16 +40,15 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
 
         public void Save(ParameterValue obj)
         {
-            if (obj.IdMat == 0)
+            if (obj.IdMat == obj.IdMatNavigation.Id)
                 _context.ParameterValues.Add(obj);
             else
             {
-                var dbEntry = _context.ParameterValues.FirstOrDefault(m => m.IdMat == obj.IdMat);
+                var dbEntry = _context.ParameterValues.FirstOrDefault(m => m.IdMatNavigation.Id == obj.IdMat);
                 if (dbEntry != null)
                 {
-                    dbEntry.IdMatNavigation = obj.IdMatNavigation;
+                    dbEntry.IdMat = obj.IdMat;
                     dbEntry.IdParam = obj.IdParam;
-                    dbEntry.IdParamNavigation = obj.IdParamNavigation;
                     dbEntry.Value = obj.Value;
                 }
             }

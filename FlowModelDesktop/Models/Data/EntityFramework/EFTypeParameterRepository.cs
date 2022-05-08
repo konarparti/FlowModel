@@ -26,6 +26,11 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             return _context.TypeParameters.First(m => m.Id == id);
         }
 
+        public TypeParameter GetByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Save(TypeParameter obj)
         {
             if (obj.Id == 0)

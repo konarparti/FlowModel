@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:local="clr-namespace:FlowModelDesktop"
+        xmlns:local="clr-namespace:FlowModelDesktop" xmlns:viewmodel="clr-namespace:FlowModelDesktop.ViewModel"
         mc:Ignorable="d"
-        Title="AddMaterialWindow" Height="500" Width="1000" FontSize="14" MinHeight="500" MinWidth="1000">
+        Title="AddMaterialWindow" Height="500" Width="1000" FontSize="14" MinHeight="500" MinWidth="1000"
+        d:DataContext="{d:DesignInstance viewmodel:AddMaterialWindowViewModel  }">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -25,17 +26,17 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" HorizontalAlignment="Center">Тип материала:</Label>
-            <TextBox Grid.Row="1" Width="250" Margin=" 0 0 0 5"></TextBox>
+            <TextBox Grid.Row="1" Width="250" Margin=" 0 0 0 5" Text="{Binding MaterialType}"></TextBox>
         </Grid>
 
         <GroupBox Grid.Row="1" Grid.Column="0" Header="Параметры свойств материала" Margin="2 0 2 0" Padding="0 10">
             <StackPanel>
                 <Label>Плотность, кг/м³</Label>
-                <xctk:DecimalUpDown  Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown  Margin="3" Value="{Binding MaterialParamValues.ro}"></xctk:DecimalUpDown>
                 <Label>Удельная теплоёмкость, Дж/(кг*°C)</Label>
-                <xctk:DecimalUpDown Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.c}"></xctk:DecimalUpDown>
                 <Label>Температура плавления, °C</Label>
-                <xctk:DecimalUpDown Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.To}"></xctk:DecimalUpDown>
 
             </StackPanel>
         </GroupBox>
@@ -43,15 +44,15 @@
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Эмпирические коэффициенты математической модели" Margin="2 0 2 0" Padding="0 10">
             <StackPanel>
                 <Label>Коэффициент консистенции при температуре приведения, Па*с^n</Label>
-                <xctk:DecimalUpDown  Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown  Margin="3" Value="{Binding MaterialParamValues.Mu}"></xctk:DecimalUpDown>
                 <Label>Температурный коэффициент вязкости, 1/°C</Label>
-                <xctk:DecimalUpDown Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.b}"></xctk:DecimalUpDown>
                 <Label>Температура приведения, °C</Label>
-                <xctk:DecimalUpDown Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.Tr}"></xctk:DecimalUpDown>
                 <Label>Индекс течения материала</Label>
-                <xctk:DecimalUpDown Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.n}"></xctk:DecimalUpDown>
                 <Label>Коэффициент теплоотдачи к материалу, Вт/(м²*°C)</Label>
-                <xctk:DecimalUpDown Margin="3"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.alpha_u}"></xctk:DecimalUpDown>
             </StackPanel>
         </GroupBox>
         
@@ -62,7 +63,7 @@
                 <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="1" Margin="0 9">Готово</Button>
+            <Button Grid.Column="1" Margin="0 9" Command="{Binding AddOrUpdateMaterialCommand}">Готово</Button>
         </Grid>
     </Grid>
 </Window>

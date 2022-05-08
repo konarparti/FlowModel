@@ -10,6 +10,7 @@ namespace FlowModelDesktop.Models.Data.Abstract
     {
         IEnumerable<T> GetAll();
         T GetById(long id);
+        T GetByName(string name);
         void Save(T obj);
         void Delete(long id);
     }
