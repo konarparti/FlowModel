@@ -40,7 +40,7 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
 
         public void Save(ParameterValue obj)
         {
-            if (obj.IdMat == 0)
+            if (obj.IdMat == 0 || !_context.ParameterValues.Contains(obj))
                 _context.ParameterValues.Add(obj);
             else
             {
@@ -56,6 +56,14 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
         public void Delete(long matId)
         {
             var value = _context.ParameterValues.First(pv => pv.IdMat == matId);
+            if (value != null)
+                _context.ParameterValues.Remove(value);
+            _context.SaveChanges();
+        }
+
+        public void Delete(long matId, long paramId)
+        {
+            var value = _context.ParameterValues.First(pv => pv.IdMat == matId && pv.IdParam == paramId);
             if (value != null)
                 _context.ParameterValues.Remove(value);
             _context.SaveChanges();

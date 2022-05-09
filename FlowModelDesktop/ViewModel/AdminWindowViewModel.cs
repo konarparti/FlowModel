@@ -22,7 +22,7 @@ namespace FlowModelDesktop.ViewModel
         private readonly IRepository<TypeParameter> _typeParameterRepository;
         private readonly IUserRepository _userRepository;
         private readonly MainWindowViewModel _viewModelBase;
-        
+
         private IEnumerable<Material> _allMaterials;
         private IEnumerable<Parameter> _allParameters;
         private IEnumerable<ParameterValue> _allParameterValues;
@@ -31,6 +31,8 @@ namespace FlowModelDesktop.ViewModel
         private IEnumerable<User> _allUsers;
         private Material? _selectedMaterial;
         private Parameter? _selectedParameter;
+        private ParameterValue? _selectedParameterValue;
+
 
         #endregion
 
@@ -55,7 +57,7 @@ namespace FlowModelDesktop.ViewModel
             _allUsers = _userRepository.GetAllUsers();
         }
 
-        
+
         #endregion
 
         #region Properties
@@ -132,6 +134,15 @@ namespace FlowModelDesktop.ViewModel
                 OnPropertyChanged();
             }
         }
+        public ParameterValue? SelectedParameterValue
+        {
+            get => _selectedParameterValue;
+            set
+            {
+                _selectedParameterValue = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -154,7 +165,7 @@ namespace FlowModelDesktop.ViewModel
         public RelayCommand EditMaterialCommand
         {
             get
-            { 
+            {
                 return new RelayCommand(c =>
                 {
                     if (_selectedMaterial == null)
@@ -279,6 +290,79 @@ namespace FlowModelDesktop.ViewModel
         }
         #endregion
 
+        #region ParameterValuesTable
+
+        public RelayCommand AddParameterValueCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    var newParamValue = new AddParameterValueWindowViewModel(_materialRepository, _parameterRepository,
+                        _parameterValueRepository, _measureRepository, null, this);
+                    ShowAddParameterValueWindow(newParamValue, "Добавление значения параметра");
+                });
+            }
+        }
+
+        public RelayCommand EditParameterValueCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedParameterValue == null)
+                    {
+                        MessageBox.Show("Выберите значение параметра, информацию о котором необходимо изменить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        var paramValue = new AddParameterValueWindowViewModel(_materialRepository, _parameterRepository,
+                            _parameterValueRepository, _measureRepository, _selectedParameterValue, this);
+                        ShowAddParameterValueWindow(paramValue, "Изменение значения параметра");
+                    }
+                });
+            }
+        }
+
+        public RelayCommand DeleteParameterValueCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedParameterValue == null)
+                    {
+                        MessageBox.Show("Выберите значение параметра, информацию о котором необходимо удалить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        var delParam = _parameterRepository.GetById(_selectedParameterValue.IdParam).Name;
+                        var delMat = _materialRepository.GetById(_selectedParameterValue.IdMat).Type;
+                        if (MessageBox.Show(
+                                $"Вы уверены что хотите удалить значения параметра {delParam} для материала {delMat}?",
+                                "Информация",
+                                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            _parameterValueRepository.Delete(_selectedParameterValue.IdMat, _selectedParameterValue.IdParam);
+                            ParameterValueUpdate();
+                        }
+                    }
+                });
+            }
+        }
+
+        public void ParameterValueUpdate()
+        {
+            AllParameterValues = _parameterValueRepository.GetAll();
+        }
+
         #endregion
+
+        #endregion
+
+
     }
 }

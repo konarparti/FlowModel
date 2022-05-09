@@ -14,5 +14,6 @@ namespace FlowModelDesktop.Models.Data.Abstract
         ParameterValue GetByBothId(long paramId, long matId);
         void Save(ParameterValue obj);
         void Delete(long matId);
+        void Delete(long matId, long paramId);
     }
 }
