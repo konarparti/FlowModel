@@ -30,6 +30,7 @@ namespace FlowModelDesktop.ViewModel
         private IEnumerable<Measure> _allMeasures;
         private IEnumerable<User> _allUsers;
         private Material? _selectedMaterial;
+        private Parameter? _selectedParameter;
 
         #endregion
 
@@ -54,8 +55,8 @@ namespace FlowModelDesktop.ViewModel
             _allUsers = _userRepository.GetAllUsers();
         }
 
+        
         #endregion
-
 
         #region Properties
 
@@ -119,6 +120,15 @@ namespace FlowModelDesktop.ViewModel
             set
             {
                 _selectedMaterial = value;
+                OnPropertyChanged();
+            }
+        }
+        public Parameter? SelectedParameter
+        {
+            get => _selectedParameter;
+            set
+            {
+                _selectedParameter = value;
                 OnPropertyChanged();
             }
         }
@@ -202,6 +212,72 @@ namespace FlowModelDesktop.ViewModel
 
         #endregion
 
+        #region ParametersTable
+
+        public RelayCommand AddParameterCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    var newParameter = new AddParameterWindowViewModel(_parameterRepository, _typeParameterRepository, _measureRepository,
+                        null, this);
+                    ShowAddParameterWindow(newParameter, "Добавление нового параметра");
+                });
+            }
+        }
+        public RelayCommand EditParameterCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedParameter == null)
+                    {
+                        MessageBox.Show("Выберите параметр, информацию о котором необходимо изменить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        var parameter = new AddParameterWindowViewModel(_parameterRepository, _typeParameterRepository, _measureRepository,
+                            _selectedParameter, this);
+                        ShowAddParameterWindow(parameter, "Изменение параметра");
+                    }
+                });
+            }
+        }
+
+        public RelayCommand DeleteParameterCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedParameter == null)
+                    {
+                        MessageBox.Show("Выберите параметр, информацию о котором необходимо удалить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        if (MessageBox.Show(
+                                $"Вы уверены что хотите удалить параметр {_selectedParameter.Name}?",
+                                "Информация",
+                                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            _parameterRepository.Delete(_selectedParameter.Id);
+                            ParameterUpdate();
+                        }
+                    }
+                });
+            }
+        }
+
+        internal void ParameterUpdate()
+        {
+            AllParameters = _parameterRepository.GetAll();
+        }
+        #endregion
 
         #endregion
     }

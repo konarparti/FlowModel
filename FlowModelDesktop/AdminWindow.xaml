@@ -45,8 +45,18 @@
                         <ColumnDefinition Width="0.8*"/>
                         <ColumnDefinition Width="0.2*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding Path=SelectedParameter, Mode=TwoWay}" ItemsSource="{Binding AllParameters}" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Column="0" Grid.RowSpan="4" SelectionMode="Single" SelectedItem="{Binding Path=SelectedParameter, Mode=TwoWay}" ItemsSource="{Binding AllParameters}" 
                               ColumnWidth="Auto" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
+                    <Button Grid.Row="0" Grid.Column="1" Margin="20 7" Command="{Binding AddParameterCommand}">Добавить</Button>
+                    <Button Grid.Row="1" Grid.Column="1" Margin="20 7" Command="{Binding EditParameterCommand}">Изменить</Button>
+                    <Button Grid.Row="2" Grid.Column="1" Margin="20 7" Command="{Binding DeleteParameterCommand}">Удалить</Button>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Значения параметров">

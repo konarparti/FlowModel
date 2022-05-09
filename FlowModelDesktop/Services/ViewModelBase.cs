@@ -39,6 +39,7 @@ namespace FlowModelDesktop.Services
         private AuthorizationWindow _authorizationWindow = null;
         private AdminWindow _adminWindow = null;
         private AddMaterialWindow _addMaterialWindow = null;
+        private AddParameterWindow _addParameterWindow = null;
 
         protected virtual void Closed()
         {
@@ -79,6 +80,18 @@ namespace FlowModelDesktop.Services
             {
                 _addMaterialWindow.Close();
                 _addMaterialWindow = null;
+                result = true;
+            }
+
+            return result;
+        }
+        public bool CloseAddParameterWindow()
+        {
+            var result = false;
+            if (_addParameterWindow != null)
+            {
+                _addParameterWindow.Close();
+                _addParameterWindow = null;
                 result = true;
             }
 
@@ -138,6 +151,17 @@ namespace FlowModelDesktop.Services
             };
             viewModel._addMaterialWindow.Closed += (sender, e) => Closed();
             viewModel._addMaterialWindow.Show();
+
+        }
+        protected void ShowAddParameterWindow(ViewModelBase viewModel, string title)
+        {
+            viewModel._addParameterWindow = new AddParameterWindow()
+            {
+                DataContext = viewModel,
+                Title = title
+            };
+            viewModel._addParameterWindow.Closed += (sender, e) => Closed();
+            viewModel._addParameterWindow.Show();
 
         }
     }

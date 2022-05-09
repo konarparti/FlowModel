@@ -205,10 +205,9 @@ namespace FlowModelDesktop.ViewModel
 
                         MessageBox.Show("Материал успешно добавлен", "Информация", MessageBoxButton.OK,
                             MessageBoxImage.Information);
-
-                        _viewModelBase.MaterialUpdated();
-                        CloseAddMaterialWindow();
                     }
+                    _viewModelBase.MaterialUpdated();
+                    CloseAddMaterialWindow();
                 });
             }
         }
@@ -219,9 +218,9 @@ namespace FlowModelDesktop.ViewModel
         {
             errors = string.Empty;
             if(string.IsNullOrWhiteSpace(MaterialType))
-                errors += "Тип матриала введен некорректно\n";
+                errors += "Тип материала введен некорректно\n";
             if (MaterialParamValues.ro <= 0)
-                errors += "Плотность матриала не может быть меньше или равна нулю\n";
+                errors += "Плотность материала не может быть меньше или равна нулю\n";
             if (MaterialParamValues.c <= 0)
                 errors += "Удельная теплоёмкость материала не может быть меньше или равна нулю\n";
             if (MaterialParamValues.To <= 0)

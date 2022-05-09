@@ -44,11 +44,9 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
                 _context.ParameterValues.Add(obj);
             else
             {
-                var dbEntry = _context.ParameterValues.FirstOrDefault(m => m.IdMat == obj.IdMat);
+                var dbEntry = _context.ParameterValues.FirstOrDefault(m => m.IdMat == obj.IdMat && m.IdParam == obj.IdParam);
                 if (dbEntry != null)
                 {
-                    dbEntry.IdMat = obj.IdMat;
-                    dbEntry.IdParam = obj.IdParam;
                     dbEntry.Value = obj.Value;
                 }
             }

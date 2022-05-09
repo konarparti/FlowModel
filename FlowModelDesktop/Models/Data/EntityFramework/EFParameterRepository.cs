@@ -43,10 +43,7 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
                     dbEntry.Name = obj.Name;
                     dbEntry.IdMeasure = obj.IdMeasure;
                     dbEntry.IdTypeParam = obj.IdTypeParam;
-                    //TODO: Может тут умереть
-                    dbEntry.IdTypeParamNavigation = obj.IdTypeParamNavigation;
-                    dbEntry.IdMeasureNavigation = obj.IdMeasureNavigation; 
-                    dbEntry.ParameterValues = obj.ParameterValues;
+
                 }
             }
             _context.SaveChanges();
