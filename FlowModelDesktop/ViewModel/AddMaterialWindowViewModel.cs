@@ -75,7 +75,12 @@ namespace FlowModelDesktop.ViewModel
             {
                 return new RelayCommand(com =>
                 {
-                    //TODO: Проверка корректности ввода всех полей
+                    CheckValues(out var errors);
+                    if (errors != string.Empty)
+                    {
+                        MessageBox.Show(errors, "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
                     if (_material != null)
                     {
@@ -207,5 +212,33 @@ namespace FlowModelDesktop.ViewModel
                 });
             }
         }
+
+        #region Functions
+
+        private void CheckValues(out string errors)
+        {
+            errors = string.Empty;
+            if(string.IsNullOrWhiteSpace(MaterialType))
+                errors += "Тип матриала введен некорректно\n";
+            if (MaterialParamValues.ro <= 0)
+                errors += "Плотность матриала не может быть меньше или равна нулю\n";
+            if (MaterialParamValues.c <= 0)
+                errors += "Удельная теплоёмкость материала не может быть меньше или равна нулю\n";
+            if (MaterialParamValues.To <= 0)
+                errors += "Температура плавления материала не может быть меньше или равна нулю\n";
+            if (MaterialParamValues.Mu <= 0)
+                errors += "Коэффициент консистенции при температуре приведения материала не может быть меньше или равен нулю\n";
+            if (MaterialParamValues.b <= 0)
+                errors += "Температурный коэффициент вязкости материала не может быть меньше или равен нулю\n";
+            if (MaterialParamValues.Tr <= 0)
+                errors += "Температура приведения материала не может быть меньше или равна нулю\n";
+            if (MaterialParamValues.n <= 0)
+                errors += "Индекс течения материала не может быть меньше или равен нулю\n";
+            if (MaterialParamValues.alpha_u <= 0)
+                errors += "Коэффициент теплоотдачи к материалу не может быть меньше или равен нулю\n";
+
+        }
+
+        #endregion
     }
 }

@@ -23,5 +23,18 @@ namespace FlowModelDesktop
         {
             InitializeComponent();
         }
+
+        private void OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            Ro.Text = Ro.Text.Replace(',', '.');
+            C.Text = C.Text.Replace(',', '.');
+            To.Text = To.Text.Replace(',', '.');
+            Mu.Text = Mu.Text.Replace(',', '.');
+            B.Text = B.Text.Replace(',', '.');
+            Tr.Text = Tr.Text.Replace(',', '.');
+            N.Text = N.Text.Replace(',', '.');
+            Alpha.Text = Alpha.Text.Replace(',', '.');
+        }
+        
     }
 }

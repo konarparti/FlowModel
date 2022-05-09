@@ -32,11 +32,11 @@
         <GroupBox Grid.Row="1" Grid.Column="0" Header="Параметры свойств материала" Margin="2 0 2 0" Padding="0 10">
             <StackPanel>
                 <Label>Плотность, кг/м³</Label>
-                <xctk:DecimalUpDown  Margin="3" Value="{Binding MaterialParamValues.ro}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="Ro" Margin="3" Value="{Binding MaterialParamValues.ro}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
                 <Label>Удельная теплоёмкость, Дж/(кг*°C)</Label>
-                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.c}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="C" Margin="3" Value="{Binding MaterialParamValues.c}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
                 <Label>Температура плавления, °C</Label>
-                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.To}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="To" Margin="3" Value="{Binding MaterialParamValues.To}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
 
             </StackPanel>
         </GroupBox>
@@ -44,15 +44,15 @@
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Эмпирические коэффициенты математической модели" Margin="2 0 2 0" Padding="0 10">
             <StackPanel>
                 <Label>Коэффициент консистенции при температуре приведения, Па*с^n</Label>
-                <xctk:DecimalUpDown  Margin="3" Value="{Binding MaterialParamValues.Mu}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="Mu" Margin="3" Value="{Binding MaterialParamValues.Mu}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
                 <Label>Температурный коэффициент вязкости, 1/°C</Label>
-                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.b}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="B" Margin="3" Value="{Binding MaterialParamValues.b}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
                 <Label>Температура приведения, °C</Label>
-                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.Tr}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="Tr" Margin="3" Value="{Binding MaterialParamValues.Tr}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
                 <Label>Индекс течения материала</Label>
-                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.n}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="N" Margin="3" Value="{Binding MaterialParamValues.n}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
                 <Label>Коэффициент теплоотдачи к материалу, Вт/(м²*°C)</Label>
-                <xctk:DecimalUpDown Margin="3" Value="{Binding MaterialParamValues.alpha_u}"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="Alpha" Margin="3" Value="{Binding MaterialParamValues.alpha_u}" ValueChanged="OnValueChanged"></xctk:DecimalUpDown>
             </StackPanel>
         </GroupBox>
         

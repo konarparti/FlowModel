@@ -55,6 +55,9 @@ namespace FlowModelDesktop
             DeltaZ.Text = DeltaZ.Text.Replace(',', '.');
         }
 
-        
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
     }
 }
