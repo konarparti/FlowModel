@@ -32,6 +32,7 @@ namespace FlowModelDesktop.ViewModel
         private Material? _selectedMaterial;
         private Parameter? _selectedParameter;
         private ParameterValue? _selectedParameterValue;
+        private User? _selectedUser;
 
 
         #endregion
@@ -140,6 +141,15 @@ namespace FlowModelDesktop.ViewModel
             set
             {
                 _selectedParameterValue = value;
+                OnPropertyChanged();
+            }
+        }
+        public User? SelectedUser
+        {
+            get => _selectedUser;
+            set
+            {
+                _selectedUser = value;
                 OnPropertyChanged();
             }
         }
@@ -357,6 +367,71 @@ namespace FlowModelDesktop.ViewModel
         public void ParameterValueUpdate()
         {
             AllParameterValues = _parameterValueRepository.GetAll();
+        }
+
+        #endregion
+
+        #region UserTable
+
+        public RelayCommand AddUserCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    var newUser = new AddUserWindowViewModel(_userRepository, null, this);
+                    ShowAddUserWindow(newUser, "Добавление нового пользователя");
+                });
+            }
+        }
+        public RelayCommand EditUserCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedUser == null)
+                    {
+                        MessageBox.Show("Выберите пользователя, информацию о котором необходимо изменить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        var user = new AddUserWindowViewModel(_userRepository, _selectedUser, this);
+                        ShowAddUserWindow(user, "Изменение данных пользователя");
+                    }
+                });
+            }
+        }
+
+        public RelayCommand DeleteUserCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedUser == null)
+                    {
+                        MessageBox.Show("Выберите пользователя, информацию о котором необходимо удалить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        if (MessageBox.Show(
+                                $"Вы уверены что хотите удалить данные о пользователе {_selectedUser.Username}?",
+                                "Информация",
+                                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            _userRepository.DeleteUser(_selectedUser.Id);
+                            UserUpdate();
+                        }
+                    }
+                });
+            }
+        }
+        internal void UserUpdate()
+        {
+            AllUsers = _userRepository.GetAllUsers();
         }
 
         #endregion
