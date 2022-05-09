@@ -153,6 +153,13 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
+        internal void MaterialWasAdded()
+        {
+            AllMaterials = _materialRepository.GetAll();
+            AllParameterValues = _parameterValueRepository.GetAll();
+            _viewModelBase.UpdateMaterials();
+        }
+
         #endregion
 
 

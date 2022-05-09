@@ -192,7 +192,7 @@ namespace FlowModelDesktop.ViewModel
                 });
             }
         }
-
+        
         public RelayCommand OpenChartsCommand
         {
             get
@@ -295,7 +295,10 @@ namespace FlowModelDesktop.ViewModel
             // затем каждому полю объекта DbData даем значение, которое берется из списка значений параметров, учитывая что его название должно быть таким какое надо
 
         }
-
+        internal void UpdateMaterials()
+        {
+            AllMaterials = _materialRepository.GetAll();
+        }
         #endregion
     }
 }
