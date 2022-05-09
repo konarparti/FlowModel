@@ -13,6 +13,8 @@ namespace FlowModelDesktop.ViewModel
 {
     public class AddUserWindowViewModel : ViewModelBase
     {
+        #region Variables
+
         private readonly IUserRepository _userRepository;
         private readonly User? _user;
         private readonly AdminWindowViewModel _viewModelBase;
@@ -21,6 +23,29 @@ namespace FlowModelDesktop.ViewModel
         private string? _username;
         private string? _password;
 
+        #endregion
+
+        #region Constructors
+
+        public AddUserWindowViewModel(IUserRepository userRepository, User? user, AdminWindowViewModel viewModelBase)
+        {
+            _userRepository = userRepository;
+            _user = user;
+            _viewModelBase = viewModelBase;
+
+            _allUsers = _userRepository.GetAllUsers();
+
+            if (user != null)
+            {
+                Username = user.Username;
+                Password = user.Password;
+                SelectedUser = _userRepository.GetById(user.Id);
+            }
+        }
+
+        #endregion
+
+        #region Properties
         public string? Username
         {
             get => _username;
@@ -58,21 +83,9 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
-        public AddUserWindowViewModel(IUserRepository userRepository, User? user, AdminWindowViewModel viewModelBase)
-        {
-            _userRepository = userRepository;
-            _user = user;
-            _viewModelBase = viewModelBase;
+        #endregion
 
-            _allUsers = _userRepository.GetAllUsers();
-
-            if (user != null)
-            {
-                Username = user.Username;
-                Password = user.Password;
-                SelectedUser = _userRepository.GetById(user.Id);
-            }
-        }
+        #region Commands
 
         public RelayCommand AddOrUpdateUserCommand
         {
@@ -119,6 +132,9 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
+        #endregion
+
+        #region Functions
         private void CheckValues(out string errors)
         {
             errors = string.Empty;
@@ -129,5 +145,8 @@ namespace FlowModelDesktop.ViewModel
             if (SelectedUser == null)
                 errors += "Вы не указали роль добавляемого пользователя\n";
         }
+
+        #endregion
+
     }
 }
