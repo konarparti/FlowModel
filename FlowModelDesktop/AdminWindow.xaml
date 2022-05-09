@@ -36,7 +36,7 @@
                               ColumnWidth="*" HorizontalScrollBarVisibility="Auto" AutoGeneratingColumn="OnAutoGeneratingColumn" IsReadOnly="True"></DataGrid>
                     <Button Grid.Row="0" Grid.Column="1" Margin="20 7" Command="{Binding AddMaterialCommand}">Добавить</Button>
                     <Button Grid.Row="1" Grid.Column="1" Margin="20 7" Command="{Binding EditMaterialCommand}">Изменить</Button>
-                    <Button Grid.Row="2" Grid.Column="1" Margin="20 7">Удалить</Button>
+                    <Button Grid.Row="2" Grid.Column="1" Margin="20 7" Command="{Binding DeleteMaterialCommand}">Удалить</Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Параметры">

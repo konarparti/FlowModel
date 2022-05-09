@@ -201,7 +201,7 @@ namespace FlowModelDesktop.ViewModel
                         MessageBox.Show("Материал успешно добавлен", "Информация", MessageBoxButton.OK,
                             MessageBoxImage.Information);
 
-                        _viewModelBase.MaterialWasAdded();
+                        _viewModelBase.MaterialUpdated();
                         CloseAddMaterialWindow();
                     }
                 });

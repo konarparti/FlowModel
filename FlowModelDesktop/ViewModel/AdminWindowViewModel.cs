@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
 using WPF_MVVM_Classes;
@@ -143,17 +144,56 @@ namespace FlowModelDesktop.ViewModel
         public RelayCommand EditMaterialCommand
         {
             get
-            {
+            { 
                 return new RelayCommand(c =>
                 {
-                    var material = new AddMaterialWindowViewModel(_materialRepository,
-                        _parameterRepository, _parameterValueRepository, SelectedMaterial, this);
-                    ShowAddMaterialWindow(material, "Изменение материала");
+                    if (_selectedMaterial == null)
+                    {
+                        MessageBox.Show("Выберите материал, информацию о котором необходимо изменить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        var material = new AddMaterialWindowViewModel(_materialRepository,
+                            _parameterRepository, _parameterValueRepository, SelectedMaterial, this);
+                        ShowAddMaterialWindow(material, "Изменение материала");
+                    }
                 });
             }
         }
 
-        internal void MaterialWasAdded()
+        public RelayCommand DeleteMaterialCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedMaterial == null)
+                    {
+                        MessageBox.Show("Выберите материал, информацию о котором необходимо удалить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        if (MessageBox.Show(
+                                $"Вы уверены что хотите удалить материал {_selectedMaterial.Type}?",
+                                "Информация",
+                                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            var paramValues = _parameterValueRepository.GetByMaterialId(_selectedMaterial.Id);
+                            foreach (var item in paramValues)
+                            {
+                                _parameterValueRepository.Delete(_selectedMaterial.Id);
+                            }
+                            _materialRepository.Delete(_selectedMaterial.Id);
+                            MaterialUpdated();
+                        }
+                    }
+                });
+            }
+        }
+
+        internal void MaterialUpdated()
         {
             AllMaterials = _materialRepository.GetAll();
             AllParameterValues = _parameterValueRepository.GetAll();

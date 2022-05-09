@@ -55,9 +55,9 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
             _context.SaveChanges();
         }
 
-        public void Delete(long matId, long paramId)
+        public void Delete(long matId)
         {
-            var value = _context.ParameterValues.First(pv => pv.IdMat == matId && pv.IdParam == paramId);
+            var value = _context.ParameterValues.First(pv => pv.IdMat == matId);
             if (value != null)
                 _context.ParameterValues.Remove(value);
             _context.SaveChanges();
