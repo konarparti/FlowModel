@@ -28,7 +28,7 @@
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Username}"></TextBox>
 
         <Label Grid.Row ="4" Grid.Column="1">Пароль:</Label>
-        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Password}"></TextBox>
+        <PasswordBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" PasswordChanged="PasswordBox_OnPasswordChanged"></PasswordBox>
 
         <Grid Grid.Row="7" Grid.ColumnSpan="4">
             <Grid.RowDefinitions>

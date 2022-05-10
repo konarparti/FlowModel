@@ -286,6 +286,12 @@ namespace FlowModelDesktop.ViewModel
                                 "Информация",
                                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
+                            if (_parameterValueRepository.GetByParameterId(_selectedParameter.Id).Count() != 0)
+                            {
+                                MessageBox.Show("Выбранный параметр удалить невозможно, так как в таблице значений параметров он имеет неудаленные значения", "Ошибка",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
                             _parameterRepository.Delete(_selectedParameter.Id);
                             ParameterUpdate();
                         }
@@ -422,6 +428,12 @@ namespace FlowModelDesktop.ViewModel
                                 "Информация",
                                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
+                            if (_userRepository.GetAllUsers().Count() == 1)
+                            {
+                                MessageBox.Show("Вы не можете удалить единственную запись в таблице пользователей", "Ошибка",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
                             _userRepository.DeleteUser(_selectedUser.Id);
                             UserUpdate();
                         }

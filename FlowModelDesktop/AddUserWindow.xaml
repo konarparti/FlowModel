@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         mc:Ignorable="d"
-        Title="AddUserWindow" Height="250" Width="600" FontSize="14" MinHeight="250" MinWidth="600">
+        Title="AddUserWindow" Height="250" Width="600" FontSize="14" MinHeight="250" MinWidth="600" Loaded="AddUserWindow_OnLoaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
@@ -21,7 +21,7 @@
             <Label>Имя пользователя</Label>
             <TextBox Margin="5,0" Text="{Binding Username}"></TextBox>
             <Label>Пароль</Label>
-            <TextBox Margin="5,0" Text="{Binding Password}"></TextBox>
+            <PasswordBox Name="PasswordBox" Margin="5,0" PasswordChanged="PasswordBox_OnPasswordChanged"></PasswordBox>
             <Label>Роль</Label>
             <ComboBox Margin="5,0" SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding AllUsers}" DisplayMemberPath="Role"></ComboBox>
         </StackPanel>

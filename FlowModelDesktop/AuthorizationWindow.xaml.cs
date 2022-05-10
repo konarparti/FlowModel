@@ -23,5 +23,10 @@ namespace FlowModelDesktop
         {
             InitializeComponent();
         }
+
+        private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((dynamic)this.DataContext).Password = ((PasswordBox)sender).Password;
+        }
     }
 }
