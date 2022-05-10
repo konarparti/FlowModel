@@ -29,6 +29,11 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
                 return false;
         }
 
+        public User GetById(long id)
+        {
+            return _context.Users.First(m => m.Id == id);
+        }
+
         public void SaveUser(User user)
         {
             if (user.Id == 0)

@@ -23,7 +23,7 @@ namespace FlowModelDesktop.ViewModel
         private string? _username;
         private string? _password;
 
-        #endregion
+        #endregion 
 
         #region Constructors
 
