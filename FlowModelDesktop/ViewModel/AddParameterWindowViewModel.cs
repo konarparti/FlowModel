@@ -68,7 +68,7 @@ public class AddParameterWindowViewModel : ViewModelBase
     }
     public IEnumerable<TypeParameter> AllParameterTypes
     {
-        get => _allParameterTypes;
+        get => _allParameterTypes.DistinctBy(x => x.Name);
         set
         {
             _allParameterTypes = value;
@@ -78,7 +78,7 @@ public class AddParameterWindowViewModel : ViewModelBase
 
     public IEnumerable<Measure> AllMeasures
     {
-        get => _allMeasures;
+        get => _allMeasures.DistinctBy(x => x.Name);
         set
         {
             _allMeasures = value;

@@ -66,7 +66,7 @@ namespace FlowModelDesktop.ViewModel
         }
         public IEnumerable<User> AllUsers
         {
-            get => _allUsers;
+            get => _allUsers.DistinctBy(x => x.Role);
             set
             {
                 _allUsers = value;

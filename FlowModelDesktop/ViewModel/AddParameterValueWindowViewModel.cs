@@ -61,7 +61,7 @@ public class AddParameterValueWindowViewModel : ViewModelBase
 
     public IEnumerable<Material> AllMaterials
     {
-        get => _allMaterials;
+        get => _allMaterials.DistinctBy(x => x.Type);
         set
         {
             _allMaterials = value;
@@ -70,7 +70,7 @@ public class AddParameterValueWindowViewModel : ViewModelBase
     }
     public IEnumerable<Parameter> AllParameters
     {
-        get => _allParameters;
+        get => _allParameters.DistinctBy(x => x.Name);
         set
         {
             _allParameters = value;
