@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
+using Microsoft.Win32;
 using WPF_MVVM_Classes;
 using ViewModelBase = FlowModelDesktop.Services.ViewModelBase;
 
@@ -496,6 +498,32 @@ namespace FlowModelDesktop.ViewModel
         internal void UserUpdate()
         {
             AllUsers = _userRepository.GetAllUsers();
+        }
+
+        #endregion
+
+        #region Backups
+
+        public RelayCommand BackupBaseCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    
+                });
+            }
+        }
+
+        public RelayCommand RestoreBaseCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    
+                });
+            }
         }
 
         #endregion

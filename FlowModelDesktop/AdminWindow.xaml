@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FlowModelDesktop"
         xmlns:viewModel="clr-namespace:FlowModelDesktop.ViewModel"
         mc:Ignorable="d"
-        Title="Панель администратора" Height="450" Width="800" SizeChanged="AdminWindow_OnSizeChanged"
+        Title="Интерфейс администратора" Height="450" Width="800" SizeChanged="AdminWindow_OnSizeChanged"
         d:DataContext="{d:DesignInstance viewModel:AdminWindowViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,7 +16,8 @@
 
         <Menu Grid.Row="0">
             <MenuItem Header="Файл">
-
+                <MenuItem Header="Резервное копирование базы данных" Command="{Binding BackupBaseCommand}"></MenuItem>
+                <MenuItem Header="Восстановление базы данных" Command="{Binding RestoreBaseCommand}"></MenuItem>
             </MenuItem>
         </Menu>
 
