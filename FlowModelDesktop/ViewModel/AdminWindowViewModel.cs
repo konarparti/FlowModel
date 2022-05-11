@@ -33,6 +33,7 @@ namespace FlowModelDesktop.ViewModel
         private Parameter? _selectedParameter;
         private ParameterValue? _selectedParameterValue;
         private User? _selectedUser;
+        private Measure? _selectedMeasure;
 
 
         #endregion
@@ -153,7 +154,15 @@ namespace FlowModelDesktop.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        public Measure? SelectedMeasure
+        {
+            get => _selectedMeasure;
+            set
+            {
+                _selectedMeasure = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Commands
@@ -373,6 +382,49 @@ namespace FlowModelDesktop.ViewModel
         public void ParameterValueUpdate()
         {
             AllParameterValues = _parameterValueRepository.GetAll();
+        }
+
+        #endregion
+
+        #region MeasureTable
+
+        public RelayCommand AddMeasureCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    var newMeasure = new AddMeasureWindowViewModel(_measureRepository, null, this);
+                    ShowAddMeasureWindow(newMeasure, "Добавление новой единицы измерения");
+                });
+            }
+        }
+
+        public RelayCommand EditMeasureCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (_selectedMeasure == null)
+                    {
+                        MessageBox.Show("Выберите единицу измерения, информацию о которой необходимо изменить", "Информация",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+
+                        var measure = new AddMeasureWindowViewModel(_measureRepository, _selectedMeasure, this);
+                        ShowAddMeasureWindow(measure, "Изменение единицы измерения");
+
+                    }
+                });
+            }
+        }
+
+        public void MeasureUpdate()
+        {
+            AllMeasures = _measureRepository.GetAll();
         }
 
         #endregion
