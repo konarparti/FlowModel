@@ -23,8 +23,8 @@ namespace FlowModelDesktop.ViewModel
         private readonly IUserRepository _userRepository;
         private readonly MainWindowViewModel _viewModelBase;
         private RelayCommand? _authorizeCommand;
-        private string _username = "admin";
-        private string _password = "admin";
+        private string _username;
+        private string _password;
 
         #endregion
 

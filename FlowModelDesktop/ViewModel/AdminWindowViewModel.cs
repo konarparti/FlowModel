@@ -510,7 +510,31 @@ namespace FlowModelDesktop.ViewModel
             {
                 return new RelayCommand(command =>
                 {
-                    
+                    var dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog()
+                    {
+                        IsFolderPicker = true
+                    };
+
+                    if (Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialog.IsPlatformSupported)
+                    {
+                        if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
+                        {
+                            if (!BackupBase(@".\FlowModelDb.db", @"\FlowModelDb.db", dialog.FileName.ToString(), false) ||
+                                !BackupBase(@".\IdentityFlowModel.db", @"\IdentityFlowModel.db", dialog.FileName.ToString(), false))
+                            {
+                                MessageBox.Show("База данных не была найдена. \nПожалуйста, проверьте содержимое директории программы.", "Резервное копирование", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Резервное копирование базы данных проведено успешно.", "Резервное копирование",
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ваша система не поддерживает данную функцию. Необходима Windows OS", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 });
             }
         }
@@ -521,8 +545,64 @@ namespace FlowModelDesktop.ViewModel
             {
                 return new RelayCommand(command =>
                 {
-                    
+                    var dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog()
+                    {
+                        IsFolderPicker = true
+                    };
+
+                    if (Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialog.IsPlatformSupported)
+                    {
+                        if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
+                        {
+                            if (!BackupBase(@".\FlowModelDb.db", @"\FlowModelDb.db", dialog.FileName.ToString(), true) ||
+                                !BackupBase(@".\IdentityFlowModel.db", @"\IdentityFlowModel.db", dialog.FileName.ToString(), true))
+                            {
+                                MessageBox.Show("База данных не была найдена. \nПожалуйста, проверьте содержимое выбранной директории.", "Восстановление базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Восстановление базы данных проведено успешно.", "Восстановление базы данных",
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                                MaterialUpdated();
+                                ParameterUpdate();
+                                MeasureUpdate();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ваша система не поддерживает данную функцию. Необходима Windows OS", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 });
+            }
+        }
+
+        private bool BackupBase(string path, string filename, string copyToPath, bool isRestore)
+        {
+            string newPath = copyToPath + filename;
+            FileInfo fileInf;
+            if (!isRestore)
+                fileInf = new FileInfo(path);
+            else
+                fileInf = new FileInfo(newPath);
+            try
+            {
+                if (fileInf.Exists)
+                {
+                    if (!isRestore) 
+                        fileInf.CopyTo(newPath, true);
+                    else
+                        fileInf.CopyTo(path, true);
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
         }
 
