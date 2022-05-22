@@ -240,6 +240,24 @@ namespace FlowModelDesktop.ViewModel
             }
         }
 
+
+        public RelayCommand MakeExperimentCommand
+        {
+            get
+            {
+                return new RelayCommand(command =>
+                {
+                    if (SelectedMaterial == null)
+                    {
+                        MessageBox.Show("Вы не выбрали тип материала", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    var experiment = new ExperimentMainWindowViewModel();
+                    ShowExperimentMainWindow(experiment, SelectedMaterial.Type);
+                });
+            }
+        }
         #endregion
 
 

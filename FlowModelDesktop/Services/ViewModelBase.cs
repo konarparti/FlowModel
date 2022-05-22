@@ -43,6 +43,7 @@ namespace FlowModelDesktop.Services
         private AddParameterValueWindow _addParameterValueWindow = null;
         private AddUserWindow _addUserWindow = null;
         private AddMeasureWindow _addMeasureWindow = null;
+        private ExperimentMainWindow _experimentMainWindow = null;
 
         protected virtual void Closed()
         {
@@ -131,6 +132,18 @@ namespace FlowModelDesktop.Services
             {
                 _addMeasureWindow.Close();
                 _addMeasureWindow = null;
+                result = true;
+            }
+
+            return result;
+        }
+        public bool CloseExperimentMainWindow()
+        {
+            var result = false;
+            if (_experimentMainWindow != null)
+            {
+                _experimentMainWindow.Close();
+                _experimentMainWindow = null;
                 result = true;
             }
 
@@ -234,6 +247,17 @@ namespace FlowModelDesktop.Services
             };
             viewModel._addMeasureWindow.Closed += (sender, e) => Closed();
             viewModel._addMeasureWindow.Show();
+            
+        }
+        protected void ShowExperimentMainWindow(ViewModelBase viewModel, string title)
+        {
+            viewModel._experimentMainWindow = new ExperimentMainWindow()
+            {
+                DataContext = viewModel,
+                Title = title
+            };
+            viewModel._experimentMainWindow.Closed += (sender, e) => Closed();
+            viewModel._experimentMainWindow.Show();
 
         }
     }
