@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace FlowModelDesktop
             W.Text = W.Text.Replace(',', '.');
             Min.Text = Min.Text.Replace(',', '.');
             Max.Text = Max.Text.Replace(',', '.');
+            StepRange.Text = StepRange.Text.Replace(',', '.');
         }
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
@@ -42,6 +44,5 @@ namespace FlowModelDesktop
                 Range.Content = "≤ v ≤";
 
         }
-
     }
 }

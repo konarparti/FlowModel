@@ -247,14 +247,8 @@ namespace FlowModelDesktop.ViewModel
             {
                 return new RelayCommand(command =>
                 {
-                    if (SelectedMaterial == null)
-                    {
-                        MessageBox.Show("Вы не выбрали тип материала", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
-                    var experiment = new ExperimentMainWindowViewModel();
-                    ShowExperimentMainWindow(experiment, SelectedMaterial.Type);
+                    var experiment = new ExperimentMainWindowViewModel(_parameterValueRepository, _materialRepository, _parameterRepository);
+                    ShowExperimentMainWindow(experiment, "В ЭФИРЕ ГАЛИЛЕО И ЭТО РУБРИКА ЭЭЭЭЭЭЭЭЭЭКСПЕРИМЕНТЫ");
                 });
             }
         }
