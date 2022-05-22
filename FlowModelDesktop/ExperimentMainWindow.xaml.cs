@@ -33,6 +33,15 @@ namespace FlowModelDesktop
             Min.Text = Min.Text.Replace(',', '.');
             Max.Text = Max.Text.Replace(',', '.');
         }
-        
+
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if((bool)Temperature.IsChecked)
+                Range.Content = "≤ T ≤";
+            if((bool)Velocity.IsChecked)
+                Range.Content = "≤ v ≤";
+
+        }
+
     }
 }
