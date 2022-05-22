@@ -23,5 +23,16 @@ namespace FlowModelDesktop
         {
             InitializeComponent();
         }
+
+        private void ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            DeltaZ.Text = DeltaZ.Text.Replace(',', '.');
+            H.Text = H.Text.Replace(',', '.');
+            L.Text = L.Text.Replace(',', '.');
+            W.Text = W.Text.Replace(',', '.');
+            Min.Text = Min.Text.Replace(',', '.');
+            Max.Text = Max.Text.Replace(',', '.');
+        }
+        
     }
 }

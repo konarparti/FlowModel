@@ -4,9 +4,81 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="ExperimentMainWindow" Height="450" Width="800">
+        Title="ExperimentMainWindow" Height="745" Width="1200" MinHeight="745" MinWidth="1200" FontWeight="DemiBold" FontSize="14" SizeChanged="Window_SizeChanged">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <GroupBox Header="План эксперимента" Padding="0 5">
+                <StackPanel>
+                    <GroupBox Header="Геометрические параметры канала" Padding="0 5">
+                        <StackPanel>
+                            <TextBlock Margin="3">Длина, м</TextBlock>
+                            <xctk:DecimalUpDown Name="L" Margin="3" Value="{Binding InputData.L}" ValueChanged="ValueChanged" />
+
+                            <TextBlock  Margin="3">Ширина, м</TextBlock>
+                            <xctk:DecimalUpDown Name="W" Margin="3" Value="{Binding InputData.W}" ValueChanged="ValueChanged"></xctk:DecimalUpDown>
+
+                            <TextBlock Margin="3">Глубина, м</TextBlock>
+                            <xctk:DecimalUpDown Name="H" Margin="3" Value="{Binding InputData.H}" ValueChanged="ValueChanged"></xctk:DecimalUpDown>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <TextBlock Margin="10 5">Выбор материала:</TextBlock>
+                    <ComboBox Margin="10 5" SelectedItem="{Binding SelectedMaterial, Mode=TwoWay}" ItemsSource="{Binding AllMaterials}" DisplayMemberPath="Type" ></ComboBox>
+
+                    <GroupBox Header="Параметры метода решения" Padding="0 10">
+                        <StackPanel>
+                            <TextBlock Margin="3">Шаг расчета по длине канала, м</TextBlock>
+                            <xctk:DecimalUpDown Name="DeltaZ" Value="{Binding InputData.DeltaZ}" ValueChanged="ValueChanged"></xctk:DecimalUpDown>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Варьируемый параметр" Padding="0 5" Margin="5 0 0 0">
+                <StackPanel>
+                    <RadioButton Margin="0 10" >Температура крышки, °C</RadioButton>
+                    <RadioButton Margin="0 10">Скорость крышки, м/с</RadioButton>
+                    <Label>Диапазон варьирования:</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.35*"/>
+                            <ColumnDefinition Width="0.1*"/>
+                            <ColumnDefinition Width="0.35*"/>
+                        </Grid.ColumnDefinitions>
+                        <xctk:DecimalUpDown Grid.Column="0" Name="Min" Margin="3"></xctk:DecimalUpDown>
+                        <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">≤ X ≤</Label>
+                        <xctk:DecimalUpDown Grid.Column="2" Name="Max" Margin="3"></xctk:DecimalUpDown>
+
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Критериальное значение" Padding="0 5" Margin="5 0 0 0">
+                <StackPanel>
+                    <RadioButton Margin="0 10" >Температура материала, °C</RadioButton>
+                    <RadioButton Margin="0 10">Вязкость материала, Па*с</RadioButton>
+                </StackPanel>
+            </GroupBox>
+
+            <Button Name="test" Margin=" 100 8">Рассчитать</Button>
+        </StackPanel>
+
+        <TabControl Grid.Column="1">
+            <TabItem Header="Таблица значений">
+
+            </TabItem>
+            <TabItem Header="График">
+
+            </TabItem>
+            <TabItem Header="Анализ">
+
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
