@@ -37,7 +37,6 @@
             <Label Grid.Column="1" HorizontalAlignment="Center">Распределение вязкости материала по длине канала</Label>
         </Grid>
 
-        <!--TODO: определиться с цветом линии графика и заливкой области под графиком-->
         <lvc:CartesianChart Grid.Row="1" Grid.Column="0">
             <lvc:CartesianChart.Series>
                 <lvc:LineSeries Title="Температура, °C =" Values="{Binding Temperature}" Stroke="Crimson" Fill="Transparent">

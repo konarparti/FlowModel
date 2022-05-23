@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
+using LiveCharts;
 using WPF_MVVM_Classes;
 using ViewModelBase = FlowModelDesktop.Services.ViewModelBase;
 
@@ -15,7 +18,13 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 {
     #region Variables
 
-    private InputData _inputData = new InputData();
+    private InputData _inputData = new InputData
+    {
+        H = 0.01m,
+        L = 8.2m,
+        W = 0.21m,
+        DeltaZ = 0.1m
+    };
     private Material? _selectedMaterial;
     private Material? _material;
     private IEnumerable<Material> _allMaterials;
@@ -27,6 +36,14 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private bool _isTemperatureCriteriaChecked;
     private bool _isViscosityCriteriaChecked;
     private decimal _step;
+    private decimal _modeValue;
+    private IEnumerable<ExperimentResult> _experimentalData;
+    private ChartValues<decimal> _сriteriaValues = new ChartValues<decimal>();
+    private List<string> _chartParams = new List<string>(){"0.1","0.2"};
+    private string _lineSeriesTitle;
+    private string _axisXTitle;
+    private string _axisYTitle;
+
     private readonly IParameterValueRepository _parameterValueRepository;
     private readonly IRepository<Material> _materialRepository;
     private readonly IRepository<Parameter> _parameterRepository;
@@ -157,7 +174,71 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public decimal ModeValue
+    {
+        get => _modeValue;
+        set
+        {
+            _modeValue = value;
+            OnPropertyChanged();
+        }
+    }
+    public IEnumerable<ExperimentResult> ExperimentalData
+    {
+        get => _experimentalData;
+        set
+        {
+            _experimentalData = value;
+            OnPropertyChanged();
+        }
+    }
+    public ChartValues<decimal> CriteriaValues
+    {
+        get => _сriteriaValues;
+        set
+        {
+            _сriteriaValues = value;
+            OnPropertyChanged();
+        }
+    }
+    public List<string> ChartParams
+    {
+        get => _chartParams;
+        set
+        {
+            _chartParams = value;
+            OnPropertyChanged();
+        }
+    }
+    public string LineSeriesTitle
+    {
+        get => _lineSeriesTitle;
+        set
+        {
+            _lineSeriesTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    public string AxisXTitle
+    {
+        get => _axisXTitle;
+        set
+        {
+            _axisXTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    public string AxisYTitle
+    {
+        get => _axisYTitle;
+        set
+        {
+            _axisYTitle = value;
+            OnPropertyChanged();
+        }
+    }
 
+    public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
 
     #region Commands
@@ -166,8 +247,9 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     {
         get
         {
-            return new RelayCommand(command =>
+            return new RelayCommand( command =>
             {
+                CriteriaValues.Clear();
                 CheckValues(out var errors);
                 if (errors != string.Empty)
                 {
@@ -175,6 +257,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     return;
                 }
 
+                ExperimentalData = MakeExperiment();
             });
         }
     }
@@ -202,6 +285,11 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             errors += "Вы не выбрали варьируемый параметр\n";
         if (!IsTemperatureCriteriaChecked && !IsViscosityCriteriaChecked)
             errors += "Вы не выбрали критериальный показатель\n";
+        if (MinRangeValue >= MaxRangeValue || MaxRangeValue - MinRangeValue < Step || MinRangeValue <= 0)
+            errors += "Диапазон варьирования указан неверно\n";
+        if (ModeValue <= 0)
+            errors += "Варьируемый параметр не может быть меньше или равен нулю\n";
+
     }
 
     private void MaterialChanged()
@@ -245,5 +333,61 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         DbData = temp;
 
         #endregion
+    }
+
+    private List<ExperimentResult> MakeExperiment()
+    {
+        var calc = new MathModel();
+        var values = new List<ExperimentResult>();
+
+        for (var i = MinRangeValue; i <= MaxRangeValue; i += Step)
+        {
+            if (IsTemperatureChecked)
+            {
+                InputData.Tu = i;
+                InputData.Vu = ModeValue;
+            }
+            else
+            {
+                InputData.Vu = i;
+                InputData.Tu = ModeValue;
+            }
+
+            calc.Calculation(InputData, DbData, out _, out var Tp, out var Eta, out _, out _);
+
+            if (IsTemperatureCriteriaChecked)
+            {
+                values.Add(new ExperimentResult(i, Tp.Last()));
+                CriteriaValues.Add(Tp.Last());
+            }
+            else
+            {
+                values.Add(new ExperimentResult(i, Eta.Last()));
+                CriteriaValues.Add(Eta.Last());
+            }
+
+            ChartParams.Add(Math.Round(i, 2).ToString());
+        }
+        
+        if (IsTemperatureChecked)
+            AxisXTitle = "Температура крышки, °C";
+        else
+            AxisXTitle = "Скорость крышки, м/с";
+
+        if (IsTemperatureCriteriaChecked)
+        {
+            AxisYTitle = "Температура продукта, °C";
+            LineSeriesTitle = "Температура продукта, °C = ";
+        }
+        else
+        {
+            AxisYTitle = "Вязкость продукта, Па*с";
+            LineSeriesTitle = "Вязкость продукта, Па*с = ";
+        }
+        
+        YFormatter = value => value.ToString("N");
+        
+        return values;
+
     }
 }

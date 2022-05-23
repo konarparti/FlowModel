@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowModelDesktop"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:viewModel="clr-namespace:FlowModelDesktop.ViewModel"
+        xmlns:models="clr-namespace:FlowModelDesktop.Models"
         mc:Ignorable="d"
-        Title="ExperimentMainWindow" Height="750" Width="1200" MinHeight="750" MinWidth="1200" FontWeight="DemiBold" FontSize="14">
+        Title="ExperimentMainWindow" Height="810" Width="1200" MinHeight="810" MinWidth="1200" FontWeight="DemiBold" FontSize="14">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
@@ -44,6 +47,8 @@
                 <StackPanel>
                     <RadioButton Name="Temperature" Margin="0 5" Checked="ToggleButton_OnChecked" IsChecked="{Binding IsTemperatureChecked}">Температура крышки, °C</RadioButton>
                     <RadioButton Name="Velocity" Margin="0 5" Checked="ToggleButton_OnChecked" IsChecked="{Binding IsVelocityChecked}">Скорость крышки, м/с</RadioButton>
+                    <Label Name="ModeLabel">Название неварьируемого параметра:</Label>
+                    <xctk:DecimalUpDown Name="Mode" Margin="3" Value="{Binding ModeValue}"></xctk:DecimalUpDown>
                     <Label>Диапазон варьирования:</Label>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -68,15 +73,34 @@
                 </StackPanel>
             </GroupBox>
 
-            <Button Margin=" 100 8" Command="{Binding CalculateCommand}">Рассчитать</Button>
+            <Button Margin=" 100 8" Command="{Binding CalculateCommand}" >Рассчитать</Button>
         </StackPanel>
 
         <TabControl Grid.Column="1">
             <TabItem Header="Таблица значений">
-
+                <DataGrid Name="DatGrid" ItemsSource="{Binding ExperimentalData}" ColumnWidth="*" IsReadOnly="True" AutoGenerateColumns="False" >
+                    <DataGrid.Resources>
+                        <models:BindingProxy x:Key="proxy" Data="{Binding }" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding Data.AxisXTitle, Source={StaticResource proxy}}" Binding="{Binding Param}"/>
+                        <DataGridTextColumn Header="{Binding Data.AxisYTitle, Source={StaticResource proxy}}" Binding="{Binding CriteriaValue}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
-            <TabItem Header="График">
-
+            <TabItem Name="Charts" Header="График">
+                <wpf:CartesianChart >
+                    <wpf:CartesianChart.Series>
+                        <wpf:LineSeries Title="{Binding LineSeriesTitle}" Values="{Binding CriteriaValues}" Stroke="Crimson" Fill="Transparent">
+                        </wpf:LineSeries>
+                    </wpf:CartesianChart.Series>
+                    <wpf:CartesianChart.AxisX>
+                        <wpf:Axis Title="{Binding AxisXTitle}" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding ChartParams}"></wpf:Axis>
+                    </wpf:CartesianChart.AxisX>
+                    <wpf:CartesianChart.AxisY>
+                        <wpf:Axis Title="{Binding AxisYTitle}" FontSize="16" FontWeight="Bold" Foreground="Black" LabelFormatter="{Binding YFormatter}"></wpf:Axis>
+                    </wpf:CartesianChart.AxisY>
+                </wpf:CartesianChart>
             </TabItem>
             <TabItem Header="Анализ">
 

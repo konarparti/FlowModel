@@ -248,7 +248,7 @@ namespace FlowModelDesktop.ViewModel
                 return new RelayCommand(command =>
                 {
                     var experiment = new ExperimentMainWindowViewModel(_parameterValueRepository, _materialRepository, _parameterRepository);
-                    ShowExperimentMainWindow(experiment, "В ЭФИРЕ ГАЛИЛЕО И ЭТО РУБРИКА ЭЭЭЭЭЭЭЭЭЭКСПЕРИМЕНТЫ");
+                    ShowExperimentMainWindow(experiment, "Проведение эксперимента");
                 });
             }
         }
