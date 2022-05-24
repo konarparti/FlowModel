@@ -49,7 +49,7 @@
                     <RadioButton Name="Temperature" Margin="0 5" Checked="ToggleButton_OnChecked" IsChecked="{Binding IsTemperatureChecked}">Температура крышки, °C</RadioButton>
                     <RadioButton Name="Velocity" Margin="0 5" Checked="ToggleButton_OnChecked" IsChecked="{Binding IsVelocityChecked}">Скорость крышки, м/с</RadioButton>
                     <Label Name="ModeLabel">Название неварьируемого параметра:</Label>
-                    <xctk:DecimalUpDown Name="Mode" Margin="3" Value="{Binding ModeValue}"></xctk:DecimalUpDown>
+                    <xctk:DecimalUpDown Name="Mode" Margin="3" Value="{Binding ModeValue}" ValueChanged="ValueChanged"></xctk:DecimalUpDown>
                     <Label>Диапазон варьирования:</Label>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -90,11 +90,15 @@
                 </DataGrid>
             </TabItem>
             <TabItem Name="Charts" Header="График">
-                <wpf:CartesianChart >
+                <wpf:CartesianChart LegendLocation="Bottom">
                     <wpf:CartesianChart.Series>
-                        <wpf:LineSeries Title="{Binding LineSeriesTitle}" Values="{Binding CriteriaValues}" Stroke="Crimson" Fill="Transparent">
+                        <wpf:LineSeries Title="{Binding LineSeriesTitle}" Values="{Binding CriteriaValues}" Stroke="Blue" Fill="Transparent" PointGeometry="{x:Static wpf:DefaultGeometries.Circle}">
+                        </wpf:LineSeries>
+
+                        <wpf:LineSeries Title="{Binding RegressiveLineTitle}" Values="{Binding RegressiveValues}" Stroke="Crimson" Fill="Transparent">
                         </wpf:LineSeries>
                     </wpf:CartesianChart.Series>
+
                     <wpf:CartesianChart.AxisX>
                         <wpf:Axis Title="{Binding AxisXTitle}" FontSize="16" FontWeight="Bold" Foreground="Black" Labels="{Binding ChartParams}"></wpf:Axis>
                     </wpf:CartesianChart.AxisX>

@@ -10,6 +10,7 @@ using Accord.Statistics.Testing;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
 using LiveCharts;
+using LiveCharts.Defaults;
 using WPF_MVVM_Classes;
 using ViewModelBase = FlowModelDesktop.Services.ViewModelBase;
 
@@ -40,7 +41,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private decimal _modeValue;
     private IEnumerable<ExperimentResult> _experimentalData;
     private ChartValues<decimal> _сriteriaValues = new ChartValues<decimal>();
-    private List<string> _chartParams = new List<string>(){"0.1","0.2"};
+    private List<string> _chartParams = new List<string>() { "0.1", "0.2" };
     private string _lineSeriesTitle;
     private string _axisXTitle;
     private string _axisYTitle;
@@ -54,6 +55,9 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private string _calculatedFisherValue = string.Empty;
     private string _tableFisherValue = string.Empty;
     private string _modelResults = string.Empty;
+
+    private string _regressiveLineTitle;
+    private ChartValues<decimal> _regressiveValues = new ChartValues<decimal>();
 
     private readonly IParameterValueRepository _parameterValueRepository;
     private readonly IRepository<Material> _materialRepository;
@@ -329,6 +333,24 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public string RegressiveLineTitle
+    {
+        get => _regressiveLineTitle;
+        set
+        {
+            _regressiveLineTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    public ChartValues<decimal> RegressiveValues
+    {
+        get => _regressiveValues;
+        set
+        {
+            _regressiveValues = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
@@ -339,17 +361,28 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     {
         get
         {
-            return new RelayCommand( command =>
+            return new RelayCommand(command =>
             {
-                CriteriaValues.Clear();
-                CheckValues(out var errors);
-                if (errors != string.Empty)
+                try
                 {
-                    MessageBox.Show(errors, "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    ChartParams.Clear();
+                    CriteriaValues.Clear();
+                    RegressiveValues.Clear();
+
+                    CheckValues(out var errors);
+                    if (errors != string.Empty)
+                    {
+                        MessageBox.Show(errors, "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    ExperimentalData = MakeExperiment();
+                }
+                catch
+                {
+                    MessageBox.Show("В процессе проведения экпериментов возникла ошибка. Уточните данные плана эксперимента.", "Ошибка расчетов", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                ExperimentalData = MakeExperiment();
             });
         }
     }
@@ -360,6 +393,8 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         {
             return new RelayCommand(command =>
             {
+                RegressiveValues.Clear();
+
                 if (ExperimentalData == null)
                 {
                     MessageBox.Show("Для проведения синтеза регрессионной модели необходимы данные экспериментов",
@@ -384,7 +419,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     {
                         regressionY.Add(lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
                     }
-                    Formula =Math.Round(lsm.Coeff[1], 2) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                    Formula = Math.Round(lsm.Coeff[1], 2) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
                 }
                 else if (IsQuadChecked)
                 {
@@ -428,8 +463,8 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 var residualDispersion = sumForDispersion * (1.0 / (x.Count - 1));
 
-                Dispersia = "\\delta^2 = " + Math.Round(residualDispersion , 4);
-                Delta = "\\delta = " + Math.Round(Math.Sqrt(residualDispersion ), 4);
+                Dispersia = "\\delta^2 = " + Math.Round(residualDispersion, 4);
+                Delta = "\\delta = " + Math.Round(Math.Sqrt(residualDispersion), 4);
 
                 var sumForDispAdequacy = 0.0;
 
@@ -440,7 +475,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 var dispersionAdequacy = sumForDispAdequacy * (1.0 / (x.Count - 5));
 
-                var fisher = residualDispersion  / dispersionAdequacy;
+                var fisher = residualDispersion / dispersionAdequacy;
 
                 CalculatedFisherValue = "F_{calc} = " + Math.Round(fisher, 2);
 
@@ -452,6 +487,20 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     ModelResults = "\\text{Модель адекватна}";
                 else
                     ModelResults = "\\text{Модель неадекватна}";
+
+                if (IsTemperatureCriteriaChecked)
+                {
+                    RegressiveLineTitle = "Регрессионная модель. Температура продукта, °C";
+                }
+                else
+                {
+                    RegressiveLineTitle = "Регрессионная модель. Вязкость продукта, Па*с";
+                }
+
+                foreach (var item in regressionY)
+                {
+                    RegressiveValues.Add((decimal)item);
+                }
             });
         }
     }
@@ -463,25 +512,27 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     {
         errors = string.Empty;
         if (InputData.W <= 0)
-            errors += "Ширина канала не может быть меньше или равна нулю\n";
+            errors += "Ширина канала не может быть меньше или равна нулю\n\n";
         if (InputData.H <= 0)
-            errors += "Высота канала не может быть меньше или равна нулю\n";
+            errors += "Высота канала не может быть меньше или равна нулю\n\n";
         if (InputData.L <= 0)
-            errors += "Длина канала не может быть меньше или равна нулю\n";
+            errors += "Длина канала не может быть меньше или равна нулю\n\n";
         if (InputData.DeltaZ <= 0)
-            errors += "Величина шага по длине канала не может быть меньше или равна нулю\n";
+            errors += "Величина шага по длине канала не может быть меньше или равна нулю\n\n";
         if (Step <= 0)
-            errors += "Величина шага варьирования не может быть меньше или равна нулю\n";
+            errors += "Величина шага варьирования не может быть меньше или равна нулю\n\n";
         if (SelectedMaterial == null)
-            errors += "Вы не выбрали тип материала\n";
+            errors += "Вы не выбрали тип материала\n\n";
         if (!IsTemperatureChecked && !IsVelocityChecked)
-            errors += "Вы не выбрали варьируемый параметр\n";
+            errors += "Вы не выбрали варьируемый параметр\n\n";
         if (!IsTemperatureCriteriaChecked && !IsViscosityCriteriaChecked)
-            errors += "Вы не выбрали критериальный показатель\n";
+            errors += "Вы не выбрали критериальный показатель\n\n";
         if (MinRangeValue >= MaxRangeValue || MaxRangeValue - MinRangeValue < Step || MinRangeValue <= 0)
-            errors += "Диапазон варьирования указан неверно\n";
+            errors += "Диапазон варьирования указан неверно\n\n";
         if (ModeValue <= 0)
-            errors += "Варьируемый параметр не может быть меньше или равен нулю\n";
+            errors += "Варьируемый параметр не может быть меньше или равен нулю\n\n";
+        if ((MaxRangeValue - MinRangeValue) / Step < 5)
+            errors += "Количество экспериментов не может быть меньше количества коэффициентов математической модели. Уточние диапазон варьирования и/или шаг варьирования\n\n";
 
     }
 
@@ -525,7 +576,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
         DbData = temp;
 
-        
+
     }
 
     private List<ExperimentResult> MakeExperiment()
@@ -535,6 +586,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
         for (var i = MinRangeValue; i <= MaxRangeValue; i += Step)
         {
+            ChartParams.Add(Math.Round(i, 2).ToString());
             if (IsTemperatureChecked)
             {
                 InputData.Tu = i;
@@ -558,10 +610,8 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                 values.Add(new ExperimentResult(i, Eta.Last()));
                 CriteriaValues.Add(Eta.Last());
             }
-
-            ChartParams.Add(Math.Round(i, 2).ToString());
         }
-        
+
         if (IsTemperatureChecked)
             AxisXTitle = "Температура крышки, °C";
         else
@@ -570,16 +620,16 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         if (IsTemperatureCriteriaChecked)
         {
             AxisYTitle = "Температура продукта, °C";
-            LineSeriesTitle = "Температура продукта, °C = ";
+            LineSeriesTitle = "Детерминированная модель. Температура продукта, °C";
         }
         else
         {
             AxisYTitle = "Вязкость продукта, Па*с";
-            LineSeriesTitle = "Вязкость продукта, Па*с = ";
+            LineSeriesTitle = "Детерминированная модель. Вязкость продукта, Па*с";
         }
-        
+
         YFormatter = value => value.ToString("N");
-        
+
         return values;
 
     }

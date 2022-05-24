@@ -230,7 +230,7 @@ namespace FlowModelDesktop.ViewModel
                 return _openTableCommand ??= new RelayCommand(x =>
                 {
                     if (TemperatureP == null || Viscosity == null)
-                        MessageBox.Show("Для построения таблицы необхо0димо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Для построения таблицы необходимо произвести расчеты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     else
                     {
                         var child = new TableWindowViewModel((List<decimal>)TemperatureP, (List<decimal>)Viscosity, InputData, DbData, _q, _time, _memory);
