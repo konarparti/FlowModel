@@ -127,6 +127,9 @@
                     <Label>Полученное регрессионное уравнение:</Label>
                     <controls:FormulaControl Formula="{Binding Formula}" Margin="5 5"/>
 
+                    <Label>Среднеквадратичное отклонение:</Label>
+                    <controls:FormulaControl Formula="{Binding Delta}" Margin="5 5"/>
+
                     <Label>Остаточная дисперсия:</Label>
                     <controls:FormulaControl Formula="{Binding Dispersia}" Margin="5 5"/>
 
@@ -137,7 +140,7 @@
                     <controls:FormulaControl Formula="{Binding TableFisherValue}" Margin="5 5"/>
 
                     <Label>Результат синтеза:</Label>
-                    <Label Content="{Binding ModelResults}"></Label>
+                    <controls:FormulaControl Formula="{Binding ModelResults}" Margin="5 5"/>
 
                 </StackPanel>
             </TabItem>

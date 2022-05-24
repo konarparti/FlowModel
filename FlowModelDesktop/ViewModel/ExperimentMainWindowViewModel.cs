@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using Accord.Statistics.Testing;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
 using LiveCharts;
@@ -47,7 +48,12 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private bool _isLinearChecked;
     private bool _isQuadChecked;
     private bool _isCubeChecked;
-
+    private string _formula = string.Empty;
+    private string _delta = string.Empty;
+    private string _dispersia = string.Empty;
+    private string _calculatedFisherValue = string.Empty;
+    private string _tableFisherValue = string.Empty;
+    private string _modelResults = string.Empty;
 
     private readonly IParameterValueRepository _parameterValueRepository;
     private readonly IRepository<Material> _materialRepository;
@@ -269,6 +275,60 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public string Formula
+    {
+        get => _formula;
+        set
+        {
+            _formula = value;
+            OnPropertyChanged();
+        }
+    }
+    public string Dispersia
+    {
+        get => _dispersia;
+        set
+        {
+            _dispersia = value;
+            OnPropertyChanged();
+        }
+    }
+    public string CalculatedFisherValue
+    {
+        get => _calculatedFisherValue;
+        set
+        {
+            _calculatedFisherValue = value;
+            OnPropertyChanged();
+        }
+    }
+    public string TableFisherValue
+    {
+        get => _tableFisherValue;
+        set
+        {
+            _tableFisherValue = value;
+            OnPropertyChanged();
+        }
+    }
+    public string ModelResults
+    {
+        get => _modelResults;
+        set
+        {
+            _modelResults = value;
+            OnPropertyChanged();
+        }
+    }
+    public string Delta
+    {
+        get => _delta;
+        set
+        {
+            _delta = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
@@ -294,6 +354,107 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         }
     }
 
+    public RelayCommand SynthesisCommand
+    {
+        get
+        {
+            return new RelayCommand(command =>
+            {
+                if (ExperimentalData == null)
+                {
+                    MessageBox.Show("Для проведения синтеза регрессионной модели необходимы данные экспериментов",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var x = new List<double>();
+                var y = new List<double>();
+                var regressionY = new List<double>();
+                foreach (var item in ExperimentalData)
+                {
+                    x.Add((double)item.Param);
+                    y.Add((double)item.CriteriaValue);
+                }
+
+                var lsm = new LSM(x, y);
+                if (IsLinearChecked)
+                {
+                    lsm.Polynomial(1);
+                    for (int i = 0; i < x.Count; i++)
+                    {
+                        regressionY.Add(lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
+                    }
+                    Formula =Math.Round(lsm.Coeff[1], 2) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                }
+                else if (IsQuadChecked)
+                {
+                    lsm.Polynomial(2);
+                    for (int i = 0; i < x.Count; i++)
+                    {
+                        regressionY.Add(lsm.Coeff[2] * x[i] * x[i] + lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
+                    }
+                    Formula = Math.Round(lsm.Coeff[2], 2) + "x^2" + SaveSign(Math.Round(lsm.Coeff[1], 2)) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                }
+                else if (IsCubeChecked)
+                {
+                    lsm.Polynomial(3);
+                    for (int i = 0; i < x.Count; i++)
+                    {
+                        regressionY.Add(lsm.Coeff[3] * x[i] * x[i] * x[i] + lsm.Coeff[2] * x[i] * x[i] + lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
+                    }
+                    Formula = Math.Round(lsm.Coeff[3], 2) + "x^3" + SaveSign(Math.Round(lsm.Coeff[2], 2)) + "x^2" + SaveSign(Math.Round(lsm.Coeff[1], 2)) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                }
+                else
+                {
+                    MessageBox.Show("Вы не выбрали вид уравнения модели",
+                        "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var sum = 0.0;
+                for (int i = 0; i < x.Count; i++)
+                {
+                    sum += regressionY[i];
+                }
+
+                var average = sum / x.Count;
+
+                var sumForDispersion = 0.0;
+
+                for (int i = 0; i < x.Count; i++)
+                {
+                    sumForDispersion += Math.Pow(regressionY[i] - average, 2);
+                }
+
+                var residualDispersion = sumForDispersion * (1.0 / (x.Count - 1));
+
+                Dispersia = "\\delta^2 = " + Math.Round(residualDispersion , 4);
+                Delta = "\\delta = " + Math.Round(Math.Sqrt(residualDispersion ), 4);
+
+                var sumForDispAdequacy = 0.0;
+
+                for (int i = 0; i < x.Count; i++)
+                {
+                    sumForDispAdequacy += Math.Pow(y[i] - regressionY[i], 2);
+                }
+
+                var dispersionAdequacy = sumForDispAdequacy * (1.0 / (x.Count - 5));
+
+                var fisher = residualDispersion  / dispersionAdequacy;
+
+                CalculatedFisherValue = "F_{calc} = " + Math.Round(fisher, 2);
+
+                var tableFisherValue = new FTest(0.95, x.Count - 5, x.Count - 1);
+
+                TableFisherValue = "F_{crit} = " + $"{Math.Round(tableFisherValue.CriticalValue, 2)}";
+
+                if (tableFisherValue.CriticalValue < fisher)
+                    ModelResults = "\\text{Модель адекватна}";
+                else
+                    ModelResults = "\\text{Модель неадекватна}";
+            });
+        }
+    }
     #endregion
 
     #region Functions
@@ -364,7 +525,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
         DbData = temp;
 
-        #endregion
+        
     }
 
     private List<ExperimentResult> MakeExperiment()
@@ -422,4 +583,23 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         return values;
 
     }
+
+    private string SaveSign(double value)
+    {
+        if (Math.Sign(value) == -1)
+        {
+            return $"{value}";
+        }
+        if (Math.Sign(value) == 1)
+        {
+            return $"+ {value}";
+        }
+        if (Math.Sign(value) == 0)
+        {
+            return $"+ 0";
+        }
+
+        return string.Empty;
+    }
+    #endregion
 }
