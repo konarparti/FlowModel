@@ -30,6 +30,7 @@
     </PackageReference>
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
+    <PackageReference Include="WpfMath" Version="0.11.0" />
   </ItemGroup>
 
   <ItemGroup>

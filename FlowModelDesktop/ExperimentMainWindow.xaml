@@ -8,6 +8,7 @@
         xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:viewModel="clr-namespace:FlowModelDesktop.ViewModel"
         xmlns:models="clr-namespace:FlowModelDesktop.Models"
+        xmlns:controls="clr-namespace:WpfMath.Controls;assembly=WpfMath"
         mc:Ignorable="d"
         Title="ExperimentMainWindow" Height="810" Width="1200" MinHeight="810" MinWidth="1200" FontWeight="DemiBold" FontSize="14">
     <Grid>
@@ -102,8 +103,43 @@
                     </wpf:CartesianChart.AxisY>
                 </wpf:CartesianChart>
             </TabItem>
-            <TabItem Header="Анализ">
+            <TabItem Header="Синтез регрессионной модели">
+                <StackPanel>
+                    <GroupBox Header="Вид уравнения" Padding="0 5" Margin="5 0 ">
+                        <StackPanel>
+                            <RadioButton Name="LinearModel" Margin="0 5" IsChecked="{Binding IsLinearChecked}" Checked="ToggleButton_OnChecked">Линейная модель</RadioButton>
+                            <RadioButton Name="QuadModel" Margin="0 5" IsChecked="{Binding IsQuadChecked}" Checked="ToggleButton_OnChecked">Квадратичная модель</RadioButton>
+                            <RadioButton Name="CubeModel" Margin="0 5" IsChecked="{Binding IsCubeChecked}" Checked="ToggleButton_OnChecked">Кубическая модель</RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="1" Margin="5 5" Command="{Binding SynthesisCommand}">Синтез</Button>
+                    </Grid>
 
+                    <Label>Вид выбранного уравнения модели:</Label>
+                    <controls:FormulaControl Name ="CheckedModelFormula" Margin="5 5"/>
+
+                    <Label>Полученное регрессионное уравнение:</Label>
+                    <controls:FormulaControl Formula="{Binding Formula}" Margin="5 5"/>
+
+                    <Label>Остаточная дисперсия:</Label>
+                    <controls:FormulaControl Formula="{Binding Dispersia}" Margin="5 5"/>
+
+                    <Label>Вычисленное значение критерия Фишера:</Label>
+                    <controls:FormulaControl Formula="{Binding CalculatedFisherValue}" Margin="5 5"/>
+
+                    <Label>Табличное значение критерия Фишера при доверительной вероятности 95%:</Label>
+                    <controls:FormulaControl Formula="{Binding TableFisherValue}" Margin="5 5"/>
+
+                    <Label>Результат синтеза:</Label>
+                    <Label Content="{Binding ModelResults}"></Label>
+
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>

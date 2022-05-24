@@ -44,6 +44,11 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private string _axisXTitle;
     private string _axisYTitle;
 
+    private bool _isLinearChecked;
+    private bool _isQuadChecked;
+    private bool _isCubeChecked;
+
+
     private readonly IParameterValueRepository _parameterValueRepository;
     private readonly IRepository<Material> _materialRepository;
     private readonly IRepository<Parameter> _parameterRepository;
@@ -234,6 +239,33 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         set
         {
             _axisYTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool IsLinearChecked
+    {
+        get => _isLinearChecked;
+        set
+        {
+            _isLinearChecked = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool IsCubeChecked
+    {
+        get => _isCubeChecked;
+        set
+        {
+            _isCubeChecked = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool IsQuadChecked
+    {
+        get => _isQuadChecked;
+        set
+        {
+            _isQuadChecked = value;
             OnPropertyChanged();
         }
     }

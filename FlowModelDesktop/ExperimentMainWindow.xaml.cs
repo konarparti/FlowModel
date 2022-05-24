@@ -51,9 +51,20 @@ namespace FlowModelDesktop
                 Range.Content = "≤ v ≤";
                 ModeLabel.Content = "Температура крышки, °C";
             }
-        }
 
-       
+            if ((bool)LinearModel.IsChecked)
+            {
+                CheckedModelFormula.Formula = "a_0x + a_1 = 0";
+            }
+            if ((bool)QuadModel.IsChecked)
+            {
+                CheckedModelFormula.Formula = "a_0x^2 + a_1x + a_2 = 0";
+            }
+            if ((bool)CubeModel.IsChecked)
+            {
+                CheckedModelFormula.Formula = "a_0x^3 + a_1x^2 + a_2x + a_3 = 0";
+            }
+        }
 
     }
 }
