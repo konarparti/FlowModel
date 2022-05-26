@@ -67,10 +67,10 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Критериальное значение" Padding="0 5" Margin="5 0 5 0">
+            <GroupBox Header="Критериальный параметр" Padding="0 5" Margin="5 0 5 0">
                 <StackPanel>
-                    <RadioButton Margin="0 5" IsChecked="{Binding IsTemperatureCriteriaChecked}">Температура продукта, °C</RadioButton>
-                    <RadioButton Margin="0 5" IsChecked="{Binding IsViscosityCriteriaChecked}">Вязкость продукта, Па*с</RadioButton>
+                    <RadioButton Name="CheckBoxTemperatureCriteria" Margin="0 5" Checked="ToggleButton_OnChecked" IsChecked="{Binding IsTemperatureCriteriaChecked}">Температура продукта, °C</RadioButton>
+                    <RadioButton Name="CheckBoxViscosityCriteria" Margin="0 5" Checked="ToggleButton_OnChecked" IsChecked="{Binding IsViscosityCriteriaChecked}">Вязкость продукта, Па*с</RadioButton>
                 </StackPanel>
             </GroupBox>
 
@@ -143,7 +143,7 @@
                     <Label>Табличное значение критерия Фишера при доверительной вероятности 95%:</Label>
                     <controls:FormulaControl Formula="{Binding TableFisherValue}" Margin="5 5"/>
 
-                    <Label>Результат синтеза:</Label>
+                    <Label>Результат:</Label>
                     <controls:FormulaControl Formula="{Binding ModelResults}" Margin="5 5"/>
 
                 </StackPanel>

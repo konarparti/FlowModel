@@ -40,6 +40,19 @@ namespace FlowModelDesktop
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
+            string TempOrVelocity = String.Empty;
+            string Criteria = String.Empty;
+
+            if (Temperature.IsChecked == true)
+                TempOrVelocity = "T_u";
+            if (Velocity.IsChecked == true)
+                TempOrVelocity = "v_u";
+
+            if (CheckBoxTemperatureCriteria.IsChecked == true)
+                Criteria = "T";
+            if (CheckBoxViscosityCriteria.IsChecked == true)
+                Criteria = "\\eta";
+            
             if ((bool)Temperature.IsChecked)
             {
                 Range.Content = "≤ T ≤";
@@ -54,15 +67,15 @@ namespace FlowModelDesktop
 
             if ((bool)LinearModel.IsChecked)
             {
-                CheckedModelFormula.Formula = "a_0x + a_1 = 0";
+                CheckedModelFormula.Formula = $"a_1{TempOrVelocity} + a_0 = {Criteria}";
             }
             if ((bool)QuadModel.IsChecked)
             {
-                CheckedModelFormula.Formula = "a_0x^2 + a_1x + a_2 = 0";
+                CheckedModelFormula.Formula = $"a_2{TempOrVelocity}^2 + a_1{TempOrVelocity} + a_0 = {Criteria}";
             }
             if ((bool)CubeModel.IsChecked)
             {
-                CheckedModelFormula.Formula = "a_0x^3 + a_1x^2 + a_2x + a_3 = 0";
+                CheckedModelFormula.Formula = $"a_3{TempOrVelocity}^3 + a_2{TempOrVelocity}^2 + a_1{TempOrVelocity} + a_0 = {Criteria}";
             }
         }
 

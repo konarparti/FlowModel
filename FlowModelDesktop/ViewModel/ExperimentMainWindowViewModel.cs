@@ -629,7 +629,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         }
 
         YFormatter = value => value.ToString("N");
-
+        RegressiveValues.Add(values[0].CriteriaValue);
         return values;
 
     }
