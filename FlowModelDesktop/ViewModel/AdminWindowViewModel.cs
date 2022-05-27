@@ -53,12 +53,19 @@ namespace FlowModelDesktop.ViewModel
             _typeParameterRepository = typeParameterRepository;
             _userRepository = userRepository;
             _viewModelBase = viewModelBase;
-            _allMaterials = _materialRepository.GetAll();
-            _allParameters = _parameterRepository.GetAll();
-            _allParameterValues = _parameterValueRepository.GetAll();
-            _allTypeParameters = _typeParameterRepository.GetAll();
-            _allMeasures = _measureRepository.GetAll();
-            _allUsers = _userRepository.GetAllUsers();
+            try
+            {
+                _allMaterials = _materialRepository.GetAll();
+                _allParameters = _parameterRepository.GetAll();
+                _allParameterValues = _parameterValueRepository.GetAll();
+                _allTypeParameters = _typeParameterRepository.GetAll();
+                _allMeasures = _measureRepository.GetAll();
+                _allUsers = _userRepository.GetAllUsers();
+            }
+            catch
+            {
+                var a = RestoreBaseCommand;
+            }
         }
 
 

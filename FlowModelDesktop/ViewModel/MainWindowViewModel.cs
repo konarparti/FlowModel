@@ -140,7 +140,17 @@ namespace FlowModelDesktop.ViewModel
             _parameterValueRepository = parameterValueRepository;
             _typeParameterRepository = typeParameterRepository;
             _userRepository = userRepository;
-            _allMaterials = _materialRepository.GetAll();
+            try
+            {
+                _allMaterials = _materialRepository.GetAll();
+            }
+            catch
+            {
+                var a = new AdminWindowViewModel(_materialRepository, _measureRepository, _parameterRepository,
+                    _parameterValueRepository, _typeParameterRepository, _userRepository, this);
+                var b = a.RestoreBaseCommand;
+                b.Execute(new object());
+            }
         }
 
         #region Commands
