@@ -24,7 +24,6 @@
                 <MenuItem Header="Графики" Command="{Binding OpenChartsCommand}"></MenuItem>
                 <MenuItem Header="Таблица значений" Command="{Binding OpenTableCommand}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Эксперимент" Command="{Binding MakeExperimentCommand}"></MenuItem>
         </Menu>
 
                 
