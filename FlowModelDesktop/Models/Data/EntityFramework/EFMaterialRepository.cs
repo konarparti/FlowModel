@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlowModelDesktop.Models.Data.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlowModelDesktop.Models.Data.EntityFramework
 {
@@ -51,8 +52,45 @@ namespace FlowModelDesktop.Models.Data.EntityFramework
         {
             var value = _context.Materials.Find(id);
             if (value != null)
+            {
+                value.ParameterValues.Clear();
                 _context.Materials.Remove(value);
-            _context.SaveChanges();
+
+                var saved = false;
+                while (!saved)
+                {
+                    try
+                    {
+                        _context.SaveChanges();
+                        saved = true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        foreach (var entry in ex.Entries)
+                        {
+                            if (entry.Entity is ParameterValue)
+                            {
+                                var proposedValues = entry.CurrentValues;
+                                var databaseValues = entry.GetDatabaseValues();
+
+                                foreach (var property in proposedValues.Properties)
+                                {
+                                    var proposedValue = proposedValues[property];
+                                    var databaseValue = databaseValues[property];
+
+                                }
+                                entry.OriginalValues.SetValues(databaseValues);
+                            }
+                            else
+                            {
+                                throw new NotSupportedException(
+                                    "Don't know how to handle concurrency conflicts for "
+                                    + entry.Metadata.Name);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

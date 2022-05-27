@@ -222,11 +222,11 @@ namespace FlowModelDesktop.ViewModel
                                 "Информация",
                                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-                            var paramValues = _parameterValueRepository.GetByMaterialId(_selectedMaterial.Id);
-                            foreach (var item in paramValues)
-                            {
-                                _parameterValueRepository.Delete(_selectedMaterial.Id);
-                            }
+                            //var paramValues = _parameterValueRepository.GetByMaterialId(_selectedMaterial.Id);
+                            //foreach (var item in paramValues)
+                            //{
+                            //    _parameterValueRepository.Delete(_selectedMaterial.Id);
+                            //}
                             _materialRepository.Delete(_selectedMaterial.Id);
                             MaterialUpdated();
                         }
