@@ -22,6 +22,9 @@
   <ItemGroup>
     <PackageReference Include="Accord.Statistics" Version="3.8.0" />
     <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="CenterSpace.NMath" Version="6.2.0.58" />
+    <PackageReference Include="CenterSpace.NMath.Standard.Windows.X64" Version="7.4.0.12" />
+    <PackageReference Include="CenterSpace.NMath.Stats" Version="4.2.0.58" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />

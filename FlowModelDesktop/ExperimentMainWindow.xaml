@@ -107,6 +107,29 @@
                     </wpf:CartesianChart.AxisY>
                 </wpf:CartesianChart>
             </TabItem>
+            <TabItem Header="Проверка статистических гипотез">
+                <StackPanel>
+                    <GroupBox Header="Проверка гипотезы о нормальности распредления по критерию Пирсона">
+                        <StackPanel>
+                            <Label>Уровень значимости α = 0,05</Label>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Margin="5 5" Command="{Binding PirsonCheckCommand}">Проверить гипотезу</Button>
+                            </Grid>
+
+                            <Label>Расчитанное значение критерия Пирсона:</Label>
+                            <controls:FormulaControl Formula="{Binding CalculatedPearson}" Margin="5 5"></controls:FormulaControl>
+
+                            <Label>Табличное значение критерия Пирсона:</Label>
+                            <controls:FormulaControl Formula="{Binding TablePearson}" Margin="5 5"></controls:FormulaControl>
+
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
             <TabItem Header="Синтез регрессионной модели">
                 <StackPanel>
                     <GroupBox Header="Вид уравнения" Padding="0 5" Margin="5 0 ">

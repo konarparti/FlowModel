@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using Accord.Statistics.Testing;
+using CenterSpace.NMath.Stats;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
 using LiveCharts;
@@ -64,6 +65,8 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private readonly IRepository<Material> _materialRepository;
     private readonly IRepository<Parameter> _parameterRepository;
 
+    private string _calculatedPearson = string.Empty;
+    private string _tablePearson = string.Empty;
 
     #endregion
 
@@ -361,6 +364,24 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public string CalculatedPearson
+    {
+        get => _calculatedPearson;
+        set
+        {
+            _calculatedPearson = value;
+            OnPropertyChanged();
+        }
+    }
+    public string TablePearson
+    {
+        get => _tablePearson;
+        set
+        {
+            _tablePearson = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
@@ -405,7 +426,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             {
                 RegressiveValues.Clear();
 
-                var measureDalta = string.Empty;
+                var measureDelta = string.Empty;
 
                 var xVariable = string.Empty;
                 var yVariable = string.Empty;
@@ -493,7 +514,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                 {
                     sumForDispAdequacy += Math.Pow(y[i] - regressionY[i], 2);
                 }
-                
+
                 var dispersionAdequacy = sumForDispAdequacy * (1.0 / (x.Count - 5));
 
                 #endregion
@@ -506,9 +527,10 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     sumForCKO += Math.Pow((y[i] - regressionY[i]) / y[i], 2);
                 }
 
-                var CKO = Math.Round(Math.Sqrt(1.0 / x.Count * sumForCKO) * 100 , 4);
+                var CKO = Math.Round(Math.Sqrt(1.0 / x.Count * sumForCKO) * 100, 4);
 
                 #endregion
+
                 var fisher = dispersiaModelAverage / dispersionAdequacy;
 
                 CalculatedFisherValue = "F_{calc} = " + Math.Round(fisher, 2);
@@ -524,28 +546,133 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 if (IsTemperatureCriteriaChecked)
                 {
-                    measureDalta = "\\;^{\\circ}C";
+                    measureDelta = "\\;^{\\circ}C";
                     RegressiveLineTitle = "Регрессионная модель. Температура продукта, °C";
                 }
                 else
                 {
-                    measureDalta = "\\;\\text{Па*с}";
+                    measureDelta = "\\;\\text{Па*с}";
                     RegressiveLineTitle = "Регрессионная модель. Вязкость продукта, Па*с";
                 }
-                
+
                 DispersiaModelAverage = "S_{av}^2 = " + $"{Math.Round(dispersiaModelAverage, 4):N4}";
 
-                if(Math.Round(dispersionAdequacy, 4) == 0)
+                if (Math.Round(dispersionAdequacy, 4) == 0)
                     Dispersia = "S_{ad}^2 < " + $"0.0001";
                 else
                     Dispersia = "S_{ad}^2 = " + $"{Math.Round(dispersionAdequacy, 4):N4}";
 
-                Delta = "\\delta = " + Math.Round(Math.Sqrt(dispersionAdequacy), 4) + measureDalta + ",\\;" + CKO + "\\%";
+                Delta = "\\delta = " + Math.Round(Math.Sqrt(dispersionAdequacy), 4) + measureDelta + ",\\;" + CKO + "\\%";
 
                 foreach (var item in regressionY)
                 {
                     RegressiveValues.Add((decimal)item);
                 }
+            });
+        }
+    }
+
+    public RelayCommand PirsonCheckCommand
+    {
+        get
+        {
+            return new RelayCommand(command =>
+            {
+                var x = new List<double>();
+                var y = new List<double>();
+                foreach (var item in ExperimentalData)
+                {
+                    x.Add((double)item.Param);
+                    y.Add((double)item.CriteriaValue);
+                }
+
+                //третий столбик
+                var multiXY = new List<double>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    multiXY.Add(x[i] * y[i]);
+                }
+
+                //расчет среднего для 4 столбика
+                var averageMultiXY = multiXY.Sum() / y.Sum();
+
+                //четвертый столбик
+                //tex:
+                // $$(\overline{x}-x_i)^2n_i$$
+                var fourth = new List<double>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    fourth.Add(Math.Pow(averageMultiXY - x[i], 2) * y[i]);
+                }
+
+                //Выборочная исправленная дисперсия
+                //tex:
+                //$$S^2 = \frac{1}{n-1}\sum{(\overline{x}-x_i)^2n_i}$$
+
+                var selectableDispersion = 1 / (y.Sum() - 1) * fourth.Sum();
+
+                //Выборочное исправленное среднее квадратическое отклонение
+                //tex:
+                //$$S = \sqrt{S^2}$$
+
+                var selectedCKO = Math.Sqrt(selectableDispersion);
+
+                //tex:
+                //$$u_i = \frac{x_i-\overline{x}}{S}$$
+                var u = new List<double>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    u.Add((x[i] - averageMultiXY) / selectedCKO);
+                }
+
+                //расчет фи
+                //tex:
+                //$$\phi(u) = \frac{1}{\sqrt{2\pi}}e^{\frac{-u^2}{2}}$$
+                var phi = new List<double>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    phi.Add(Math.Exp(-Math.Pow(u[i], 2) / 2) / Math.Sqrt(2 * Math.PI));
+                }
+
+                //расчет теоретических частот 
+                //tex:
+                //$$n_{i}^{0} = \frac{nh}{S}\phi(u_i)$$
+                var n = new List<double>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    n.Add(y.Sum() * (double)Step / selectedCKO * phi[i]);
+                }
+
+                //последний столбик
+                //tex:
+                //$$\frac{(n_i-n^{0}_i)^2}{n^{0}_i}$$
+                var lastColumn = new List<double>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    lastColumn.Add(Math.Pow(y[i]-n[i], 2) / n[i]);
+                }
+
+                var pearson = lastColumn.Sum();
+
+                Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook workBook;
+                Microsoft.Office.Interop.Excel.Worksheet workSheet;
+                excelApp.SheetsInNewWorkbook = 1;
+
+                workBook = excelApp.Workbooks.Add();
+                workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.Worksheets.get_Item(1);
+                workSheet.Name = "1";
+
+                workSheet.Cells[1,1].FormulaLocal = $"=ХИ2.ОБР(0,95;{x.Count - 3})";
+
+                workSheet.Columns.AutoFit();
+
+                var test = (double)(workSheet.Cells[1, 1] as Microsoft.Office.Interop.Excel.Range).Value;
+
+                workBook.Close(false);
+
+                CalculatedPearson = "P_{calc} = " + Math.Round(pearson, 4);
+                TablePearson = "P_{crit} = " + Math.Round(test, 4);
             });
         }
     }
