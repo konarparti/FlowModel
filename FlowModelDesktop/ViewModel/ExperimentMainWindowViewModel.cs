@@ -51,6 +51,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private bool _isCubeChecked;
     private string _formula = string.Empty;
     private string _delta = string.Empty;
+    private string _dispersiaModelAverage = string.Empty;
     private string _dispersia = string.Empty;
     private string _calculatedFisherValue = string.Empty;
     private string _tableFisherValue = string.Empty;
@@ -351,6 +352,15 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public string DispersiaModelAverage
+    {
+        get => _dispersiaModelAverage;
+        set
+        {
+            _dispersiaModelAverage = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
@@ -395,6 +405,14 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             {
                 RegressiveValues.Clear();
 
+                var measureDalta = string.Empty;
+
+                var xVariable = string.Empty;
+                var yVariable = string.Empty;
+
+                yVariable = IsTemperatureCriteriaChecked ? "T" : "\\eta";
+                xVariable = IsTemperatureChecked ? "T_u" : "v_u";
+
                 if (ExperimentalData == null)
                 {
                     MessageBox.Show("Для проведения синтеза регрессионной модели необходимы данные экспериментов",
@@ -419,7 +437,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     {
                         regressionY.Add(lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
                     }
-                    Formula = Math.Round(lsm.Coeff[1], 2) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                    Formula = Math.Round(lsm.Coeff[1], 2) + $"{xVariable}" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + $"= {yVariable}";
                 }
                 else if (IsQuadChecked)
                 {
@@ -428,7 +446,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     {
                         regressionY.Add(lsm.Coeff[2] * x[i] * x[i] + lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
                     }
-                    Formula = Math.Round(lsm.Coeff[2], 2) + "x^2" + SaveSign(Math.Round(lsm.Coeff[1], 2)) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                    Formula = Math.Round(lsm.Coeff[2], 2) + $"{xVariable}^2" + SaveSign(Math.Round(lsm.Coeff[1], 2)) + $"{xVariable}" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + $"= {yVariable}";
                 }
                 else if (IsCubeChecked)
                 {
@@ -437,7 +455,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     {
                         regressionY.Add(lsm.Coeff[3] * x[i] * x[i] * x[i] + lsm.Coeff[2] * x[i] * x[i] + lsm.Coeff[1] * x[i] + lsm.Coeff[0]);
                     }
-                    Formula = Math.Round(lsm.Coeff[3], 2) + "x^3" + SaveSign(Math.Round(lsm.Coeff[2], 2)) + "x^2" + SaveSign(Math.Round(lsm.Coeff[1], 2)) + "x" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + "= 0";
+                    Formula = Math.Round(lsm.Coeff[3], 2) + $"{xVariable}^3" + SaveSign(Math.Round(lsm.Coeff[2], 2)) + $"{xVariable}^2" + SaveSign(Math.Round(lsm.Coeff[1], 2)) + $"{xVariable}" + SaveSign(Math.Round(lsm.Coeff[0], 2)) + $"= {yVariable}";
                 }
                 else
                 {
@@ -446,10 +464,12 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     return;
                 }
 
+                #region Дисперсия модели среднего
+
                 var sum = 0.0;
                 for (int i = 0; i < x.Count; i++)
                 {
-                    sum += regressionY[i];
+                    sum += y[i];
                 }
 
                 var average = sum / x.Count;
@@ -458,13 +478,14 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 for (int i = 0; i < x.Count; i++)
                 {
-                    sumForDispersion += Math.Pow(regressionY[i] - average, 2);
+                    sumForDispersion += Math.Pow(y[i] - average, 2);
                 }
 
-                var residualDispersion = sumForDispersion * (1.0 / (x.Count - 1));
+                var dispersiaModelAverage = sumForDispersion * (1.0 / (x.Count - 1));
 
-                Dispersia = "\\delta^2 = " + Math.Round(residualDispersion, 4);
-                Delta = "\\delta = " + Math.Round(Math.Sqrt(residualDispersion), 4);
+                #endregion
+
+                #region Дисперсия адекватности
 
                 var sumForDispAdequacy = 0.0;
 
@@ -472,10 +493,23 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                 {
                     sumForDispAdequacy += Math.Pow(y[i] - regressionY[i], 2);
                 }
-
+                
                 var dispersionAdequacy = sumForDispAdequacy * (1.0 / (x.Count - 5));
 
-                var fisher = residualDispersion / dispersionAdequacy;
+                #endregion
+
+                #region Расчет относительного значения СКО
+
+                var sumForCKO = 0.0;
+                for (int i = 0; i < x.Count; i++)
+                {
+                    sumForCKO += Math.Pow((y[i] - regressionY[i]) / y[i], 2);
+                }
+
+                var CKO = Math.Round(Math.Sqrt(1.0 / x.Count * sumForCKO) * 100 , 4);
+
+                #endregion
+                var fisher = dispersiaModelAverage / dispersionAdequacy;
 
                 CalculatedFisherValue = "F_{calc} = " + Math.Round(fisher, 2);
 
@@ -490,12 +524,23 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 if (IsTemperatureCriteriaChecked)
                 {
+                    measureDalta = "\\;^{\\circ}C";
                     RegressiveLineTitle = "Регрессионная модель. Температура продукта, °C";
                 }
                 else
                 {
+                    measureDalta = "\\;\\text{Па*с}";
                     RegressiveLineTitle = "Регрессионная модель. Вязкость продукта, Па*с";
                 }
+                
+                DispersiaModelAverage = "S_{av}^2 = " + $"{Math.Round(dispersiaModelAverage, 4):N4}";
+
+                if(Math.Round(dispersionAdequacy, 4) == 0)
+                    Dispersia = "S_{ad}^2 < " + $"0.0001";
+                else
+                    Dispersia = "S_{ad}^2 = " + $"{Math.Round(dispersionAdequacy, 4):N4}";
+
+                Delta = "\\delta = " + Math.Round(Math.Sqrt(dispersionAdequacy), 4) + measureDalta + ",\\;" + CKO + "\\%";
 
                 foreach (var item in regressionY)
                 {

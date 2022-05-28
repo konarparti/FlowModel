@@ -131,10 +131,10 @@
                     <Label>Полученное регрессионное уравнение:</Label>
                     <controls:FormulaControl Formula="{Binding Formula}" Margin="5 5"/>
 
-                    <Label>Среднеквадратичное отклонение:</Label>
-                    <controls:FormulaControl Formula="{Binding Delta}" Margin="5 5"/>
+                    <Label>Дисперсия модели среднего:</Label>
+                    <controls:FormulaControl Formula="{Binding DispersiaModelAverage}" Margin="5 5"/>
 
-                    <Label>Остаточная дисперсия:</Label>
+                    <Label>Остаточная дисперсия (дисперсия адекватности):</Label>
                     <controls:FormulaControl Formula="{Binding Dispersia}" Margin="5 5"/>
 
                     <Label>Вычисленное значение критерия Фишера:</Label>
@@ -145,6 +145,9 @@
 
                     <Label>Результат:</Label>
                     <controls:FormulaControl Formula="{Binding ModelResults}" Margin="5 5"/>
+
+                    <Label>Среднеквадратичное отклонение:</Label>
+                    <controls:FormulaControl Formula="{Binding Delta}" Margin="5 5"/>
 
                 </StackPanel>
             </TabItem>
