@@ -67,6 +67,8 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
     private string _calculatedPearson = string.Empty;
     private string _tablePearson = string.Empty;
+    private IEnumerable<PearsonResult> _pearsonDataGridValues;
+    private string _normalPearsonResult = string.Empty;
 
     #endregion
 
@@ -382,6 +384,24 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public IEnumerable<PearsonResult> PearsonDataGridValues
+    {
+        get => _pearsonDataGridValues;
+        set
+        {
+            _pearsonDataGridValues = value;
+            OnPropertyChanged();
+        }
+    }
+    public string NormalPearsonResult
+    {
+        get => _normalPearsonResult;
+        set
+        {
+            _normalPearsonResult = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
@@ -671,6 +691,33 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 CalculatedPearson = "P_{calc} = " + Math.Round(pearson, 4);
                 TablePearson = "P_{crit} = " + Math.Round(criticalPearson, 4);
+
+                var pearsonResult = new List<PearsonResult>();
+                for (int i = 0; i < x.Count; i++)
+                {
+                    pearsonResult.Add(new PearsonResult()
+                    {
+                        FirstColumn = Math.Round(x[i], 2),
+                        SecondColumn = Math.Round(y[i], 2),
+                        ThirdColumn = Math.Round(multiXY[i], 2),
+                        FourthColumn = Math.Round(fourth[i], 2),
+                        FifthColumn = Math.Round(u[i], 2),
+                        SixthColumn = Math.Round(phi[i], 2),
+                        SeventhColumn = Math.Round(n[i], 2),
+                        EighthColumn = Math.Round(lastColumn[i], 2)
+                    });
+                }
+
+                PearsonDataGridValues = pearsonResult;
+
+                if (pearson > criticalPearson)
+                {
+                    NormalPearsonResult = "\\text{Нулевая гипотеза о нормальном распределении отвергается}";
+                }
+                else
+                {
+                    NormalPearsonResult = "\\text{Нулевая гипотеза о нормальном распределении принимается}";
+                }
             });
         }
     }

@@ -10,8 +10,51 @@
         xmlns:models="clr-namespace:FlowModelDesktop.Models"
         xmlns:controls="clr-namespace:WpfMath.Controls;assembly=WpfMath"
         mc:Ignorable="d"
-        Title="ExperimentMainWindow" Height="810" Width="1200" MinHeight="810" MinWidth="1200" FontWeight="DemiBold" FontSize="14">
+        Title="ExperimentMainWindow" Height="810" Width="1300" MinHeight="810" MinWidth="1300" FontWeight="DemiBold" FontSize="14">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="FirstColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="x_i" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="SecondColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="y_i" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ThirdColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="x_iy_i" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="FourthColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="(\overline{x}-x_i)^2y_i" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="FifthColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="u_i" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="SixthColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="\phi(u_i)" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="SeventhColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="y^0_i" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="EighthColumn">
+                <StackPanel>
+                    <controls:FormulaControl Formula="\frac{(y_i-y^{0}_i)^2}{y^{0}_i}" FontWeight="Bold"></controls:FormulaControl>
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
@@ -119,12 +162,84 @@
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="0" Margin="5 5" Command="{Binding PirsonCheckCommand}">Проверить гипотезу</Button>
                             </Grid>
+                            <GroupBox Header="Шаги решения" Padding="0 5" Margin="5 0 5 0">
+                                <DataGrid Height="250" Margin="0 5" ItemsSource="{Binding PearsonDataGridValues}" AutoGenerateColumns="False" ColumnWidth="*">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource FirstColumn}" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding FirstColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource SecondColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding SecondColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource ThirdColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding ThirdColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource FourthColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding FourthColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource FifthColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding FifthColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource SixthColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding SixthColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource SeventhColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding SeventhColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn HeaderTemplate="{StaticResource EighthColumn}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding EighthColumn}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </GroupBox>
 
                             <Label>Расчитанное значение критерия Пирсона:</Label>
                             <controls:FormulaControl Formula="{Binding CalculatedPearson}" Margin="5 5"></controls:FormulaControl>
 
                             <Label>Табличное значение критерия Пирсона:</Label>
                             <controls:FormulaControl Formula="{Binding TablePearson}" Margin="5 5"></controls:FormulaControl>
+
+                            <Label>Результат:</Label>
+                            <controls:FormulaControl Formula="{Binding NormalPearsonResult}" Margin="5 5"></controls:FormulaControl>
 
                         </StackPanel>
                     </GroupBox>
