@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using Accord.Statistics.Testing;
-using CenterSpace.NMath.Stats;
 using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
 using LiveCharts;
 using LiveCharts.Defaults;
+using Pearson;
 using WPF_MVVM_Classes;
 using ViewModelBase = FlowModelDesktop.Services.ViewModelBase;
 
@@ -654,25 +654,10 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 var pearson = lastColumn.Sum();
 
-                Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
-                Microsoft.Office.Interop.Excel.Workbook workBook;
-                Microsoft.Office.Interop.Excel.Worksheet workSheet;
-                excelApp.SheetsInNewWorkbook = 1;
-
-                workBook = excelApp.Workbooks.Add();
-                workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.Worksheets.get_Item(1);
-                workSheet.Name = "1";
-
-                workSheet.Cells[1,1].FormulaLocal = $"=ХИ2.ОБР(0,95;{x.Count - 3})";
-
-                workSheet.Columns.AutoFit();
-
-                var test = (double)(workSheet.Cells[1, 1] as Microsoft.Office.Interop.Excel.Range).Value;
-
-                workBook.Close(false);
-
+                var criticalPearson = PersonCriterion.GetCriticalValue(x.Count - 3);
+                
                 CalculatedPearson = "P_{calc} = " + Math.Round(pearson, 4);
-                TablePearson = "P_{crit} = " + Math.Round(test, 4);
+                TablePearson = "P_{crit} = " + Math.Round(criticalPearson, 4);
             });
         }
     }
