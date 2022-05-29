@@ -578,6 +578,12 @@ public class ExperimentMainWindowViewModel : ViewModelBase
         {
             return new RelayCommand(command =>
             {
+                if (ExperimentalData == null)
+                {
+                    MessageBox.Show("Для проверки гипотезы о нормальности распределения необходимы данные экспериментов",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 var x = new List<double>();
                 var y = new List<double>();
                 foreach (var item in ExperimentalData)
@@ -654,8 +660,15 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 var pearson = lastColumn.Sum();
 
-                var criticalPearson = PersonCriterion.GetCriticalValue(x.Count - 3);
-                
+                var criticalPearson = PearsonCriterion.GetCriticalValue(x.Count - 3);
+                if (criticalPearson == -1.0)
+                {
+                    MessageBox.Show(
+                        "Количество экспериментов превышает 10000. Пожалуйста, уменьшите количество экспериментов.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Stop);
+                    return;
+                }
+
                 CalculatedPearson = "P_{calc} = " + Math.Round(pearson, 4);
                 TablePearson = "P_{crit} = " + Math.Round(criticalPearson, 4);
             });
