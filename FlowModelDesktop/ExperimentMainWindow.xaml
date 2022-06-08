@@ -232,6 +232,12 @@
                                 </DataGrid>
                             </GroupBox>
 
+                            <Label>Параметры генеральной совокупности X:</Label>
+                            <Label>Выборочное среднее:</Label>
+                            <controls:FormulaControl Formula="{Binding SelectedAverage}" Margin="5 5"></controls:FormulaControl>
+                            <Label>Выборочное исправленное среднее квадратическое отклонение:</Label>
+                            <controls:FormulaControl Formula="{Binding SelectedCKO}" Margin="5 5"></controls:FormulaControl>
+
                             <Label>Расчитанное значение критерия Пирсона:</Label>
                             <controls:FormulaControl Formula="{Binding CalculatedPearson}" Margin="5 5"></controls:FormulaControl>
 

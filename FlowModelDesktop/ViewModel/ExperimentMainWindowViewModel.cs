@@ -69,6 +69,9 @@ public class ExperimentMainWindowViewModel : ViewModelBase
     private string _tablePearson = string.Empty;
     private IEnumerable<PearsonResult> _pearsonDataGridValues;
     private string _normalPearsonResult = string.Empty;
+    private string _selectedAverage = string.Empty;
+    private string _selectedCKO = string.Empty;
+
 
     #endregion
 
@@ -402,6 +405,24 @@ public class ExperimentMainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public string SelectedAverage
+    {
+        get => _selectedAverage;
+        set
+        {
+            _selectedAverage = value;
+            OnPropertyChanged();
+        }
+    }
+    public string SelectedCKO
+    {
+        get => _selectedCKO;
+        set
+        {
+            _selectedCKO = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Func<double, string> YFormatter { get; set; } = value => value.ToString("N");
     #endregion
@@ -709,6 +730,8 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                 }
 
                 PearsonDataGridValues = pearsonResult;
+                SelectedAverage = "\\overline{x} = " + Math.Round(averageMultiXY, 3);
+                SelectedCKO = "\\sigma = " + Math.Round(selectedCKO, 3);
 
                 if (pearson > criticalPearson)
                 {
