@@ -576,7 +576,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
 
                 CalculatedFisherValue = "F_{calc} = " + Math.Round(fisher, 2);
 
-                var tableFisherValue = new FTest(0.95, x.Count - 5, x.Count - 1);
+                var tableFisherValue = new FTest(0.95, x.Count - 1, x.Count - 5);
 
                 TableFisherValue = "F_{crit} = " + $"{Math.Round(tableFisherValue.CriticalValue, 2)}";
 
