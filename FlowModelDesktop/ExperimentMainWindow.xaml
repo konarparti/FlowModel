@@ -293,6 +293,8 @@
                     <Label>Среднеквадратичное отклонение:</Label>
                     <controls:FormulaControl Formula="{Binding Delta}" Margin="5 5"/>
 
+                    <Button Margin="5 0" Width="200" Command="{Binding CreateReportCommand}">Создать отчет</Button>
+
                 </StackPanel>
             </TabItem>
         </TabControl>

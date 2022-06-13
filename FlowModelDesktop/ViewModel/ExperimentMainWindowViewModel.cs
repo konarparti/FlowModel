@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,10 @@ using FlowModelDesktop.Models;
 using FlowModelDesktop.Models.Data.Abstract;
 using LiveCharts;
 using LiveCharts.Defaults;
+using Microsoft.Office.Interop.Excel;
 using Pearson;
 using WPF_MVVM_Classes;
+using Parameter = FlowModelDesktop.Models.Parameter;
 using ViewModelBase = FlowModelDesktop.Services.ViewModelBase;
 
 namespace FlowModelDesktop.ViewModel;
@@ -568,7 +571,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                     sumForCKO += Math.Pow((y[i] - regressionY[i]) / y[i], 2);
                 }
 
-                var CKO = Math.Round(Math.Sqrt(1.0 / x.Count * sumForCKO) * 100, 4);
+                var CKO = Math.Round(Math.Sqrt(1.0 / x.Count * sumForCKO) * 100, 2);
 
                 #endregion
 
@@ -603,7 +606,7 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                 else
                     Dispersia = "S_{ad}^2 = " + $"{Math.Round(dispersionAdequacy, 4):N4}";
 
-                Delta = "\\delta = " + Math.Round(Math.Sqrt(dispersionAdequacy), 4) + measureDelta + ",\\;" + CKO + "\\%";
+                Delta = "\\delta = " + Math.Round(Math.Sqrt(dispersionAdequacy), 2) + measureDelta + ",\\;" + CKO + "\\%";
 
                 foreach (var item in regressionY)
                 {
@@ -741,6 +744,101 @@ public class ExperimentMainWindowViewModel : ViewModelBase
                 {
                     NormalPearsonResult = "\\text{Нулевая гипотеза о нормальном распределении принимается}";
                 }
+            });
+        }
+    }
+
+    public RelayCommand CreateReportCommand
+    {
+        get
+        {
+            return new RelayCommand(command =>
+            {
+                //TODO: Сделать проверку наличия данных
+
+                Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+                Workbook workBook;
+                Worksheet workSheet;
+                excelApp.SheetsInNewWorkbook = 3;
+
+                workBook = excelApp.Workbooks.Add();
+                workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.Worksheets.get_Item(1);
+                workSheet.Name = "Отчет об экспериментах";
+
+                workSheet.Cells[1, 1] = "План эксперимента"; workSheet.Cells[1, 1].Font.Bold = true; workSheet.get_Range("A1","A1").Font.Size = 14;
+                workSheet.Cells[1, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 2]].Merge();
+                workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 2]].BorderAround(Weight: XlBorderWeight.xlMedium, Color: Color.Black);
+                
+                workSheet.Cells[2, 1] = "Геометрические параметры канала"; workSheet.Cells[2, 1].Font.Bold = true;
+                workSheet.Cells[2, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2, 2]].Merge();
+                workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2, 2]].BorderAround(Weight: XlBorderWeight.xlThin, Color: Color.Black);
+                
+                workSheet.Cells[3, 1] = "Длина, м:";
+                workSheet.Cells[3, 2] = InputData.L;
+                
+                workSheet.Cells[4, 1] = "Ширина, м:";
+                workSheet.Cells[4, 2] = InputData.W; 
+
+                workSheet.Cells[5, 1] = "Глубина, м:";
+                workSheet.Cells[5, 2] = InputData.H;
+
+                workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[5, 2]].BorderAround(Weight:XlBorderWeight.xlMedium, Color:Color.Black);
+
+                workSheet.Cells[6, 1] = "Тип материала:";
+                workSheet.Cells[6, 2] = SelectedMaterial.Type;
+
+                workSheet.Range[workSheet.Cells[6, 1], workSheet.Cells[6, 2]].BorderAround(Weight: XlBorderWeight.xlMedium, Color: Color.Black);
+
+                workSheet.Cells[7, 1] = "Параметры метода решения"; workSheet.Cells[7, 1].Font.Bold = true;
+                workSheet.Cells[7, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Range[workSheet.Cells[7, 1], workSheet.Cells[7, 2]].Merge();
+                workSheet.Range[workSheet.Cells[7, 1], workSheet.Cells[7, 2]].BorderAround(Weight: XlBorderWeight.xlThin, Color: Color.Black);
+                
+                workSheet.Cells[8, 1] = "Шаг расчета по длине канала, м:";
+                workSheet.Cells[8, 2] = InputData.DeltaZ;
+                workSheet.Range[workSheet.Cells[7, 1], workSheet.Cells[8, 2]].BorderAround(Weight: XlBorderWeight.xlMedium, Color: Color.Black);
+                
+                workSheet.Cells[9, 1] = "Варьируемый параметр:"; workSheet.Cells[9, 1].Font.Bold = true;
+                workSheet.Cells[9, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                workSheet.Range[workSheet.Cells[9, 1], workSheet.Cells[9, 2]].Merge();
+                workSheet.Range[workSheet.Cells[9, 1], workSheet.Cells[9, 2]].BorderAround(Weight: XlBorderWeight.xlThin, Color: Color.Black);
+
+                workSheet.Cells[10, 1] = "Наименование варьируемого параметра:";
+                workSheet.Cells[11, 1] = "Наименование неварьируемого параметра:";
+                if (IsTemperatureChecked)
+                {
+                    workSheet.Cells[10, 2] = "Температура крышки, °C";
+                    workSheet.Cells[11, 2] = "Скорость крышки, м/с";
+                }
+                else
+                {
+                    workSheet.Cells[10, 2] = "Скорость крышки, м/с";
+                    workSheet.Cells[11, 2] = "Температура крышки, °C";
+                }
+
+                workSheet.Cells[12, 1] = "Нижняя граница диапазона варьирования:";
+                workSheet.Cells[12, 2] = MinRangeValue;
+
+                workSheet.Cells[13, 1] = "Верхняя граница диапазона варьирования:";
+                workSheet.Cells[13, 2] = MaxRangeValue;
+
+                workSheet.Cells[14, 1] = "Шаг варьирования:";
+                workSheet.Cells[14, 2] = Step;
+
+                workSheet.Range[workSheet.Cells[9, 1], workSheet.Cells[14, 2]].BorderAround(Weight: XlBorderWeight.xlMedium, Color: Color.Black);
+                
+                workSheet.Cells[15, 1] = "Критериальный параметр:";
+                if(IsTemperatureCriteriaChecked)
+                    workSheet.Cells[15, 2] = "Температура крышки, °C";
+                else
+                    workSheet.Cells[15, 2] = "Скорость крышки, м/с";
+
+                workSheet.Range[workSheet.Cells[15, 1], workSheet.Cells[15, 2]].BorderAround(Weight: XlBorderWeight.xlMedium, Color: Color.Black);
+
+                workSheet.Columns.AutoFit();
+                excelApp.Visible = true;
             });
         }
     }
