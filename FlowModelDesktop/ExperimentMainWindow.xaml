@@ -133,7 +133,7 @@
                 </DataGrid>
             </TabItem>
             <TabItem Name="Charts" Header="График">
-                <wpf:CartesianChart LegendLocation="Bottom">
+                <wpf:CartesianChart LegendLocation="Bottom" Name="CartesianCharts">
                     <wpf:CartesianChart.Series>
                         <wpf:LineSeries Title="{Binding LineSeriesTitle}" Values="{Binding CriteriaValues}" Stroke="Blue" Fill="Transparent" PointGeometry="{x:Static wpf:DefaultGeometries.Circle}">
                         </wpf:LineSeries>

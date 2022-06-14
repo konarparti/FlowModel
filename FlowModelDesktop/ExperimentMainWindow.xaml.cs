@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,6 +79,5 @@ namespace FlowModelDesktop
                 CheckedModelFormula.Formula = $"a_3{TempOrVelocity}^3 + a_2{TempOrVelocity}^2 + a_1{TempOrVelocity} + a_0 = {Criteria}";
             }
         }
-
     }
 }
